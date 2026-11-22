@@ -91,7 +91,27 @@ private:
     int adet;
 };
 
-void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyruk,
-                KitapListesi& katalog, DuyuruListesi& duyurular);
+// ---------------- Dairesel tampon (sabit kapasiteli dizi) ----------------
+// Son 10 odunc/iade hareketini tutar. Dolunca yeni kayit EN ESKININ ustune yazilir.
+// new/delete yok: bellek sabit, sizinti olamaz. UART alim tamponu ayni mantikla calisir.
+
+const int hareketKapasitesi = 10;
+
+class HareketTamponu {
+public:
+    HareketTamponu();
+    void yaz(const std::string& hareket);  // O(1)
+    void listele() const;                  // Eskiden yeniye, O(kapasite)
+    int boyut() const;
+
+private:
+    std::string kayit[hareketKapasitesi];
+    int bas;      // En eski kaydin indisi
+    int adet;     // Dolu hucre sayisi (0..kapasite). Bos ve dolu tamponu bu ayirt eder.
+    int toplam;   // Simdiye kadar yazilan hareket sayisi (uzerine yazilanlar dahil)
+};
+
+void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, HareketTamponu& hareketler,
+                BeklemeKuyrugu& kuyruk, KitapListesi& katalog, DuyuruListesi& duyurular);
 
 #endif

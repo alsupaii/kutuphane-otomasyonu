@@ -72,6 +72,9 @@ Ortanca-uc pivot ve bellek sayaci (52-56) 23 Kasim'da eklendi; tum test dosyalar
 | 61 | Bozuk dosya | 10 satir: 6 alanli, eski 4 alanli, harfli ID, 7 alan, tekrar ID, sayfa 0, durum 2, bos satir, bos yazar, CRLF | Gosterim: 5 bozuk satir uyarisi. Yukleme: 3 kitap (101, 201, 206), 6 satir atlandi | Dogru |
 | 62 | Iki kez yukle | M1 → 14, 1, 14, 1 | Ikisinde de 8 kitap; tekrar olusmaz | Dogru |
 | 63 | Yukleme sonrasi undo | Test 57 sonrasi M2 → 9 | "Geri alma yigini bosaltildi (2 kayit)", sonra "islem yok" | Dogru |
+| 64 | Bos tampon | Acilista M2 → 11 | "Hareket yok (tampon bos)" | Dogru |
+| 65 | Tam dolu tampon | 5 odunc + 5 iade (105, 102, 108, 107, 106); M2 → 11 | 10 kayit, hucre 0..9, dusen 0 | Dogru |
+| 66 | Tasma: en eskinin ustune yazma | Test 65 + 103 odunc ve iade; M2 → 11 | Ilk iki kayit (105 ve 102 odunc) duser; liste hucre 2'den baslar, 9'dan 0'a doner; toplam 12, dusen 2 | Dogru |
 
 Not: 21 ve 22'de takas ve kaydirma sayisi esit (14). Bu dogru: ikisi de dizideki
 ters sirali cift sayisina esittir.
@@ -80,3 +83,4 @@ Not (23 Kasim): `-static` olmadan derlenen exe Git Bash'te Git'in `libstdc++-6.d
 Bu surumle "dosya yokken yukle" testi yanlis sonuc verdi (dosya acilmis gibi davrandi). Statik exe ile
 dogru calisti. Tum test dosyalari statik exe ile yeniden kosuldu; diger sonuclar degismedi.
 `derle.bat` artik `-static` ile derler.
+Dairesel tampon (64-66) eklendi; tum test dosyalarinin ciktisi onceki kosuyla ayni (yeni menu satiri haric).

@@ -50,6 +50,7 @@ int main() {
     DuyuruListesi duyurular;
     IslemYigini gecmis;    // Tum islemlerin metin kaydi
     IslemYigini geriAlma;  // Yalniz geri alinabilir kitap ekleme/silme kayitlari
+    HareketTamponu hareketler;  // Son 10 odunc/iade hareketi (sabit dizi, new yok)
     BeklemeKuyrugu kuyruk;
     const KampusGrafi kampus;
 
@@ -72,7 +73,7 @@ int main() {
                 modul1Menu(katalog, duyurular, gecmis, geriAlma);
                 break;
             case 2:
-                modul2Menu(gecmis, geriAlma, kuyruk, katalog, duyurular);
+                modul2Menu(gecmis, geriAlma, hareketler, kuyruk, katalog, duyurular);
                 break;
             case 3:
                 modul3Menu(katalog, gecmis);

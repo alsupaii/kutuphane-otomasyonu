@@ -9,7 +9,7 @@ Kitap kataloğunu, duyuru panosunu, işlem geçmişini, ödünç bekleme sıras�
 | Modül | Dosya | Yapı | Kullanım |
 |---|---|---|---|
 | 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` (yazma, gösterme, kataloğa yükleme) |
-| 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack (iki adet) ve Queue | İşlem geçmişi, geri alma (undo), ödünç verme, iade, ödünç bekleme sırası |
+| 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack (iki adet), Queue, dizi tabanlı dairesel tampon | İşlem geçmişi, geri alma (undo), ödünç verme, iade, ödünç bekleme sırası, son 10 hareket |
 | 3 | `modul3.h/.cpp` | Dinamik dizi + Bubble, Insertion, Quick Sort (iki pivot), Binary Search | Sayfa/ID sıralama, ID arama, pivot karşılaştırması |
 | 4 | `modul4.h/.cpp` | Komşuluk matrisli ağırlıklı graf, BFS, DFS, Dijkstra | Kampüs rotaları |
 | — | `ortak.h/.cpp` | Güvenli girdi okuma | Tüm menüler |
@@ -42,6 +42,11 @@ Ana menü → Modül 1–4 → her modülde alt menü → `0` ile ana menüye d�
 
 **Bellek kanıtı:** Her düğüm türünün kurucusu `canliDugum` sayacını artırır, yıkıcısı azaltır. `new[]` dizileri `canliDizi` ile sayılır. Çıkışta iki sayaç da 0 olmalıdır; değilse program "SIZINTI VAR" yazar.
 
+## Dairesel tampon (son 10 hareket)
+Ödünç, sıraya ekleme, iade ve talep iptali hem geçmiş yığınına hem `HareketTamponu`'na yazılır. Tampon 10 hücreli sabit bir dizidir; `new`/`delete` kullanmaz. Yazma indisi `(bas + adet) % 10`'dur. Tampon doluysa yeni kayıt en eskinin üstüne yazılır ve `bas` bir ilerler. `adet` sayacı boş ile dolu tamponu ayırır; yalnız `bas` ile bu ayrım yapılamaz. M2 → 11 kayıtları eskiden yeniye, dizideki hücre numarasıyla gösterir.
+
+**Neden yığın değil?** Yığın sınırsız büyür ve en yeniyi önce verir. Tampon sabit bellek kullanır, en eskiyi kendiliğinden düşürür ve kayıtları geliş sırasıyla verir. Mikrodenetleyicideki UART alım tamponu aynı yapıdır.
+
 ## Dosya biçimi
 `katalog.txt`: her kitap bir satır, `id|ad|yazar|sayfa|oduncte|oduncSayisi` (örnek `101|Suc ve Ceza|Dostoyevski|687|1|4`). Eski 4 alanlı satırlar da okunur; bu kitaplar rafta ve sayaç 0 sayılır.
 - **Göster (M1 → 12):** dosyayı okur, kataloğa dokunmaz.
@@ -57,7 +62,7 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-63 senaryo: `TEST_SENARYOLARI.md`.
+66 senaryo: `TEST_SENARYOLARI.md`.
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.

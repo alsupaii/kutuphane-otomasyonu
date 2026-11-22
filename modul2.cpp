@@ -172,6 +172,42 @@ int BeklemeKuyrugu::temizle() {
 }
 
 // ---------------------------------------------------------------
+// HareketTamponu: dizi tabanli dairesel tampon
+// Yazma indisi: (bas + adet) % kapasite. Son hucreden sonra 0. hucreye donulur.
+// ---------------------------------------------------------------
+
+HareketTamponu::HareketTamponu() : bas(0), adet(0), toplam(0) {}
+
+int HareketTamponu::boyut() const { return adet; }
+
+void HareketTamponu::yaz(const std::string& hareket) {
+    if (adet < hareketKapasitesi) {
+        kayit[(bas + adet) % hareketKapasitesi] = hareket;  // Bos hucre var: oraya yaz.
+        adet++;
+    } else {
+        kayit[bas] = hareket;                       // Dolu: en eskinin ustune yaz...
+        bas = (bas + 1) % hareketKapasitesi;        // ...en eski artik bir sonraki hucre.
+    }
+    toplam++;
+}
+
+// bas'tan baslar, adet kadar ilerler. Indis sona gelince % ile 0'a doner.
+void HareketTamponu::listele() const {
+    if (adet == 0) {
+        std::cout << "Hareket yok (tampon bos).\n";
+        return;
+    }
+    std::cout << "Son " << adet << " hareket (eskiden yeniye), kapasite " << hareketKapasitesi
+              << ":\n";
+    for (int i = 0; i < adet; i++) {
+        const int hucre = (bas + i) % hareketKapasitesi;
+        std::cout << "  " << (i + 1) << ") [hucre " << hucre << "] " << kayit[hucre] << '\n';
+    }
+    std::cout << "Toplam yazilan: " << toplam << ", uzerine yazilan (dusen): "
+              << (toplam - adet) << '\n';
+}
+
+// ---------------------------------------------------------------
 // Menu
 // ---------------------------------------------------------------
 
@@ -186,7 +222,14 @@ static bool sadeceRakamMi(const std::string& s) {
 
 // Odunc talebi. Kitap raftaysa hemen verilir; oduncteyse ogrenci siraya girer (enqueue).
 // Dokundugu yapilar: katalog (durum), kuyruk, yigin.
-static void oduncTalebi(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katalog) {
+// Odunc hareketini iki yere yazar: gecmis yigini (sinirsiz) ve hareket tamponu (son 10).
+static void hareketKaydet(IslemYigini& gecmis, HareketTamponu& hareketler, const std::string& metin) {
+    gecmis.push(metin);
+    hareketler.yaz(metin);
+}
+
+static void oduncTalebi(IslemYigini& gecmis, HareketTamponu& hareketler, BeklemeKuyrugu& kuyruk,
+                        KitapListesi& katalog) {
     Ogrenci o;
     o.ogrenciNo = metinOku("Ogrenci numarasi: ");
     if (!sadeceRakamMi(o.ogrenciNo)) {
@@ -206,21 +249,22 @@ static void oduncTalebi(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListes
     if (!kitap->veri.oduncte) {
         katalog.durumDegistir(o.kitapId, true);
         std::cout << "Kitap rafta. Odunc verildi: " << o.kitapAdi << " -> " << o.adSoyad << '\n';
-        gecmis.push("Odunc verildi: ID " + idMetni + " -> " + o.ogrenciNo);
+        hareketKaydet(gecmis, hareketler, "Odunc verildi: ID " + idMetni + " -> " + o.ogrenciNo);
     } else if (kuyruk.siradaMi(o.ogrenciNo, o.kitapId)) {
         std::cout << "Bu ogrenci bu kitap icin zaten sirada.\n";
     } else {
         kuyruk.enqueue(o);
         std::cout << "Kitap oduncte. " << o.adSoyad << " bekleme sirasina eklendi. Kuyruktaki yeri: "
                   << kuyruk.boyut() << '\n';
-        gecmis.push("Bekleme sirasina eklendi: " + o.ogrenciNo + " -> ID " + idMetni);
+        hareketKaydet(gecmis, hareketler,
+                      "Bekleme sirasina eklendi: " + o.ogrenciNo + " -> ID " + idMetni);
     }
 }
 
 // Iade. Kitabi bekleyen varsa kitap rafa donmez, siradaki ogrenciye gecer ve duyuru yazilir.
 // Dokundugu yapilar: katalog, kuyruk, yigin, duyuru listesi.
-static void iadeAl(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katalog,
-                   DuyuruListesi& duyurular) {
+static void iadeAl(IslemYigini& gecmis, HareketTamponu& hareketler, BeklemeKuyrugu& kuyruk,
+                   KitapListesi& katalog, DuyuruListesi& duyurular) {
     const int id = tamSayiOku("Iade edilen kitap ID: ", 1, 999999);
     const KitapDugum* kitap = katalog.bul(id);
     if (kitap == nullptr) {
@@ -239,12 +283,13 @@ static void iadeAl(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& ka
                   << " - " << siradaki.adSoyad << '\n';
         duyurular.ekle("Sira size geldi: " + siradaki.adSoyad + " (" + siradaki.ogrenciNo +
                        "), kitap: " + siradaki.kitapAdi);
-        gecmis.push("Iade alindi: ID " + idMetni + ", siradaki ogrenciye verildi: " +
-                    siradaki.ogrenciNo);
+        hareketKaydet(gecmis, hareketler,
+                      "Iade alindi: ID " + idMetni + ", siradaki ogrenciye verildi: " +
+                          siradaki.ogrenciNo);
     } else {
         katalog.durumDegistir(id, false);
         std::cout << "Iade alindi. Bekleyen yok, kitap rafa dondu: " << kitap->veri.ad << '\n';
-        gecmis.push("Iade alindi: ID " + idMetni + ", rafa dondu");
+        hareketKaydet(gecmis, hareketler, "Iade alindi: ID " + idMetni + ", rafa dondu");
     }
 }
 
@@ -284,8 +329,8 @@ static void geriAl(IslemYigini& geriAlma, IslemYigini& gecmis, KitapListesi& kat
     gecmis.push("Geri alindi: " + kayit.aciklama);
 }
 
-void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyruk,
-                KitapListesi& katalog, DuyuruListesi& duyurular) {
+void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, HareketTamponu& hareketler,
+                BeklemeKuyrugu& kuyruk, KitapListesi& katalog, DuyuruListesi& duyurular) {
     int secim = -1;
     while (secim != 0) {
         std::cout << "\n=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===\n"
@@ -299,8 +344,9 @@ void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyr
                   << "  8) Kuyrugu listele (FIFO)\n"
                   << "  9) Geri al: son kitap ekleme/silme islemini geri al (undo)\n"
                   << " 10) Geri alma yiginini listele\n"
+                  << " 11) Son 10 odunc/iade hareketi (dairesel tampon)\n"
                   << "  0) Ana menuye don\n";
-        secim = tamSayiOku("Seciminiz: ", 0, 10);
+        secim = tamSayiOku("Seciminiz: ", 0, 11);
 
         switch (secim) {
         case 1:
@@ -334,18 +380,22 @@ void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyr
         case 10:
             geriAlma.listele();
             break;
+        case 11:
+            hareketler.listele();
+            break;
         case 5:
-            oduncTalebi(gecmis, kuyruk, katalog);
+            oduncTalebi(gecmis, hareketler, kuyruk, katalog);
             break;
         case 6:
-            iadeAl(gecmis, kuyruk, katalog, duyurular);
+            iadeAl(gecmis, hareketler, kuyruk, katalog, duyurular);
             break;
         case 7: {
             Ogrenci o;
             if (kuyruk.dequeue(o)) {
                 std::cout << "Siradan cikti (talep iptal): " << o.ogrenciNo << " - " << o.adSoyad
                           << " -> " << o.kitapAdi << '\n';
-                gecmis.push("Talep iptal: " + o.ogrenciNo + " -> ID " + std::to_string(o.kitapId));
+                hareketKaydet(gecmis, hareketler,
+                              "Talep iptal: " + o.ogrenciNo + " -> ID " + std::to_string(o.kitapId));
             } else {
                 std::cout << "Kuyruk bos. Siradan cikacak ogrenci yok.\n";
             }
