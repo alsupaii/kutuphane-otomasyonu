@@ -32,9 +32,49 @@ struct KitapDugum {
     KitapDugum& operator=(const KitapDugum&) = delete;
 };
 
+// ---------------- Hash tablosu (zincirleme): ID -> katalog dugumu ----------------
+// Kova sayisi asal. Hash fonksiyonu: id % kovaSayisi. Ayni kovaya dusenler o kovanin
+// kucuk tek yonlu listesinde (zincir) durur. Kova kitabin KOPYASINI degil, katalog
+// dugumunun ADRESINI tutar: veri tek yerde durur.
+
+const int kovaSayisi = 31;
+
+struct IndeksDugum {
+    int id;
+    KitapDugum* kitap;  // Katalogdaki dugum (sahibi katalog, indeks silmez)
+    IndeksDugum* next;  // Ayni kovadaki bir sonraki kayit
+    IndeksDugum(int i, KitapDugum* k, IndeksDugum* n) : id(i), kitap(k), next(n) { canliDugum++; }
+    ~IndeksDugum() { canliDugum--; }
+    IndeksDugum(const IndeksDugum&) = delete;
+    IndeksDugum& operator=(const IndeksDugum&) = delete;
+};
+
+class IdIndeksi {
+public:
+    IdIndeksi();
+    ~IdIndeksi();
+    IdIndeksi(const IdIndeksi&) = delete;
+    IdIndeksi& operator=(const IdIndeksi&) = delete;
+
+    void ekle(int id, KitapDugum* kitap);           // Zincirin basina, O(1)
+    KitapDugum* bul(int id, int& adim) const;       // Ortalama O(1 + alfa)
+    bool sil(int id);                               // Ortalama O(1 + alfa)
+    int temizle();                                  // Indeks dugumlerini siler; kitaplara dokunmaz
+    void takas(IdIndeksi& diger);                   // Iki indeksin kovalarini degistirir, O(kova)
+    void dagilimYazdir() const;
+    int boyut() const;
+
+private:
+    IndeksDugum* kova[kovaSayisi];
+    int adet;
+    static int kovaNo(int id) { return id % kovaSayisi; }  // ID her zaman >= 1
+};
+
 enum class EklemeSonucu { basarili, idZatenVar, hedefYok };
 enum class SilmeSonucu { basarili, bulunamadi, oduncte };
 
+// Katalog: cift yonlu liste (sira ve gezinme) + hash indeksi (ID ile hizli erisim).
+// Iki yapi AYNI fonksiyonlarda guncellenir: listede olan her ID indekste de vardir.
 class KitapListesi {
 public:
     KitapListesi();
@@ -55,6 +95,10 @@ public:
     bool oduncteKitapVarMi() const;
 
     const KitapDugum* bul(int id) const;
+    // Ayni ID'yi iki yolla arar, kac karsilastirma yapildigini dondurur (savunma/olcum icin).
+    int dogrusalAramaAdimi(int id, bool& bulundu) const;  // Bastan sona, O(n)
+    int hashAramaAdimi(int id, bool& bulundu) const;      // Kova zinciri, O(1 + alfa)
+    void indeksDagilimiYazdir() const;
     bool bosMu() const;
     int boyut() const;
 
@@ -72,8 +116,9 @@ private:
     KitapDugum* bas;
     KitapDugum* son;
     int adet;
+    IdIndeksi indeks;
 
-    KitapDugum* dugumBul(int id) const;
+    KitapDugum* dugumBul(int id) const;  // Artik indeksten bulur
 };
 
 // Tek yonlu dairesel liste dugumu: son dugumun next'i bastaki dugumu gosterir.

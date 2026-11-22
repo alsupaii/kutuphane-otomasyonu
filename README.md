@@ -8,7 +8,7 @@ Kitap kataloğunu, duyuru panosunu, işlem geçmişini, ödünç bekleme sıras�
 ## Kullanılan veri yapıları
 | Modül | Dosya | Yapı | Kullanım |
 |---|---|---|---|
-| 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` (yazma, gösterme, kataloğa yükleme) |
+| 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste + zincirlemeli hash indeksi, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` (yazma, gösterme, kataloğa yükleme) |
 | 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack (iki adet), Queue, dizi tabanlı dairesel tampon | İşlem geçmişi, geri alma (undo), ödünç verme, iade, ödünç bekleme sırası, son 10 hareket |
 | 3 | `modul3.h/.cpp` | Dinamik dizi + Bubble, Insertion, Quick Sort (iki pivot), Binary Search | Sayfa/ID sıralama, ID arama, pivot karşılaştırması |
 | 4 | `modul4.h/.cpp` | Komşuluk matrisli ağırlıklı graf, BFS, DFS, Dijkstra | Kampüs rotaları |
@@ -42,6 +42,15 @@ Ana menü → Modül 1–4 → her modülde alt menü → `0` ile ana menüye d�
 
 **Bellek kanıtı:** Her düğüm türünün kurucusu `canliDugum` sayacını artırır, yıkıcısı azaltır. `new[]` dizileri `canliDizi` ile sayılır. Çıkışta iki sayaç da 0 olmalıdır; değilse program "SIZINTI VAR" yazar.
 
+## Hash indeksi (katalogda ID ile arama)
+Katalog iki yapıdan oluşur: sırayı ve gezinmeyi çift yönlü liste tutar, ID ile erişimi hash tablosu sağlar. Tablo 31 kovalıdır (asal); hash fonksiyonu `id % 31`. Aynı kovaya düşen kayıtlar o kovanın zincirinde durur, yeni kayıt zincirin başına girer. Kova, kitabın kopyasını değil katalog düğümünün adresini tutar.
+- Ekleme, silme, temizleme ve dosyadan yükleme listeyi ve indeksi aynı fonksiyonda günceller.
+- Silme sırası: önce indeksten çıkar, sonra listeden sök, en son `delete`. Ters sırada indekste sarkan işaretçi kalırdı.
+- ID ile arama, silme, ödünç/iade ve tekrar ID kontrolü O(n) yerine ortalama O(1 + α) oldu (α = kayıt / kova).
+- M1 → 15 aynı ID'yi iki yolla arar; M1 → 16 kova dağılımını ve 1000 kitaplık denemeyi gösterir (doğrusal ortalama 500,5, hash 16,6 karşılaştırma).
+
+**Neden BST değil?** ID'ler artarak eklenir. Dengesiz BST'de her yeni ID en sağa gider ve ağaç bir listeye döner (O(n)). Aynı artan ID'ler `id % 31` ile kovalara eşit dağılır.
+
 ## Dairesel tampon (son 10 hareket)
 Ödünç, sıraya ekleme, iade ve talep iptali hem geçmiş yığınına hem `HareketTamponu`'na yazılır. Tampon 10 hücreli sabit bir dizidir; `new`/`delete` kullanmaz. Yazma indisi `(bas + adet) % 10`'dur. Tampon doluysa yeni kayıt en eskinin üstüne yazılır ve `bas` bir ilerler. `adet` sayacı boş ile dolu tamponu ayırır; yalnız `bas` ile bu ayrım yapılamaz. M2 → 11 kayıtları eskiden yeniye, dizideki hücre numarasıyla gösterir.
 
@@ -62,12 +71,13 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-66 senaryo: `TEST_SENARYOLARI.md`.
+71 senaryo: `TEST_SENARYOLARI.md`.
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
 - Metin alanlarında `|` karakteri kullanılamaz, çünkü dosyada ayıraç olarak kullanılıyor.
 - Kitabın hangi öğrencide olduğu tutulmaz, yalnız ödünçte olup olmadığı tutulur. Bu yüzden iadede kimin getirdiği sorulmaz.
 - Bekleme kuyruğu ve işlem geçmişi dosyaya yazılmaz; yalnız katalog kaydedilir.
+- Hash tablosunun kova sayısı sabittir (31); büyümez. Kitap sayısı çok artarsa zincirler uzar (1000 kitapta ortalama 16,6 adım).
 - Geri alma yalnız kitap ekleme ve silmeyi kapsar. Ödünç, iade ve kuyruk işlemleri geri alınmaz. Katalog boşaltılınca geri alma yığını da boşalır.
 - Konsol mesajları ASCII'dir (yönerge gereği Türkçe karakter yok).

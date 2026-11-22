@@ -27,37 +27,161 @@ static void kitapSatiriYaz(const Kitap& k) {
 }
 
 // ---------------------------------------------------------------
-// KitapListesi: cift yonlu dogrusal bagli liste
+// IdIndeksi: zincirlemeli hash tablosu
+// alfa (yuk faktoru) = kayit sayisi / kova sayisi. Ortalama zincir boyu alfa'dir.
+// ---------------------------------------------------------------
+
+IdIndeksi::IdIndeksi() : adet(0) {
+    for (int i = 0; i < kovaSayisi; i++) {
+        kova[i] = nullptr;
+    }
+}
+
+IdIndeksi::~IdIndeksi() { temizle(); }
+
+int IdIndeksi::boyut() const { return adet; }
+
+// Yeni kayit zincirin BASINA girer: zincirin sonunu aramaya gerek yok, O(1).
+// Tekrar eden ID kontrolu KitapListesi'nde yapilir.
+void IdIndeksi::ekle(int id, KitapDugum* kitap) {
+    const int k = kovaNo(id);
+    kova[k] = new IndeksDugum{id, kitap, kova[k]};  // Yeni kayit eski zincir basini gosterir.
+    adet++;
+}
+
+// Yalniz ID'nin dustugu kovanin zinciri taranir. adim: kac kayitla karsilastirildi.
+KitapDugum* IdIndeksi::bul(int id, int& adim) const {
+    adim = 0;
+    for (const IndeksDugum* p = kova[kovaNo(id)]; p != nullptr; p = p->next) {
+        adim++;
+        if (p->id == id) {
+            return p->kitap;
+        }
+    }
+    return nullptr;
+}
+
+// Tek yonlu zincirden silme: onceki kaydi da tutarak ilerle.
+bool IdIndeksi::sil(int id) {
+    const int k = kovaNo(id);
+    IndeksDugum* onceki = nullptr;
+    IndeksDugum* p = kova[k];
+    while (p != nullptr && p->id != id) {
+        onceki = p;
+        p = p->next;
+    }
+    if (p == nullptr) {
+        return false;
+    }
+    if (onceki == nullptr) {
+        kova[k] = p->next;        // Silinen zincirin basiydi.
+    } else {
+        onceki->next = p->next;   // Oncekini silinenin arkasina bagla.
+    }
+    delete p;                     // Yalniz indeks kaydi silinir; kitap dugumu katalogun isi.
+    adet--;
+    return true;
+}
+
+int IdIndeksi::temizle() {
+    int silinen = 0;
+    for (int i = 0; i < kovaSayisi; i++) {
+        while (kova[i] != nullptr) {
+            IndeksDugum* sonraki = kova[i]->next;
+            delete kova[i];
+            kova[i] = sonraki;
+            silinen++;
+        }
+    }
+    adet = 0;
+    return silinen;
+}
+
+void IdIndeksi::takas(IdIndeksi& diger) {
+    for (int i = 0; i < kovaSayisi; i++) {
+        std::swap(kova[i], diger.kova[i]);
+    }
+    std::swap(adet, diger.adet);
+}
+
+// Her dolu kovanin zincirini yazar ve yuk faktorunu hesaplar.
+void IdIndeksi::dagilimYazdir() const {
+    int dolu = 0;
+    int enUzun = 0;
+    for (int i = 0; i < kovaSayisi; i++) {
+        int uzunluk = 0;
+        for (const IndeksDugum* p = kova[i]; p != nullptr; p = p->next) {
+            uzunluk++;
+        }
+        if (uzunluk == 0) {
+            continue;
+        }
+        dolu++;
+        if (uzunluk > enUzun) {
+            enUzun = uzunluk;
+        }
+        std::cout << "  kova " << std::setw(2) << i << ":";
+        for (const IndeksDugum* p = kova[i]; p != nullptr; p = p->next) {
+            std::cout << ' ' << p->id << (p->next != nullptr ? " ->" : "");
+        }
+        std::cout << '\n';
+    }
+    std::cout << adet << " kayit, " << kovaSayisi << " kova, " << dolu << " kova dolu, en uzun zincir "
+              << enUzun << ". Yuk faktoru alfa = " << adet << "/" << kovaSayisi << " = " << std::fixed
+              << std::setprecision(2) << static_cast<double>(adet) / kovaSayisi << '\n';
+    std::cout.unsetf(std::ios::fixed);
+    std::cout << std::setprecision(6);
+}
+
+// ---------------------------------------------------------------
+// KitapListesi: cift yonlu dogrusal bagli liste + hash indeksi
 // ---------------------------------------------------------------
 
 KitapListesi::KitapListesi() : bas(nullptr), son(nullptr), adet(0) {}
 
 KitapListesi::~KitapListesi() { temizle(); }
 
-// Bastan sona dolasarak ID arar. O(n).
+// ID ile arama artik indeksten yapilir: ortalama O(1 + alfa). Liste taranmaz.
 KitapDugum* KitapListesi::dugumBul(int id) const {
-    KitapDugum* p = bas;
-    while (p != nullptr) {
-        if (p->veri.id == id) {
-            return p;
-        }
-        p = p->next;
-    }
-    return nullptr;
+    int adim = 0;
+    return indeks.bul(id, adim);
 }
 
 const KitapDugum* KitapListesi::bul(int id) const { return dugumBul(id); }
+
+// Karsilastirma icin eski yontem: bastan sona yuru. O(n).
+int KitapListesi::dogrusalAramaAdimi(int id, bool& bulundu) const {
+    int adim = 0;
+    for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
+        adim++;
+        if (p->veri.id == id) {
+            bulundu = true;
+            return adim;
+        }
+    }
+    bulundu = false;
+    return adim;
+}
+
+int KitapListesi::hashAramaAdimi(int id, bool& bulundu) const {
+    int adim = 0;
+    bulundu = (indeks.bul(id, adim) != nullptr);
+    return adim;
+}
+
+void KitapListesi::indeksDagilimiYazdir() const { indeks.dagilimYazdir(); }
 
 bool KitapListesi::bosMu() const { return bas == nullptr; }
 
 int KitapListesi::boyut() const { return adet; }
 
-// Basa ekleme. O(1) (ID kontrolu haric).
+// Basa ekleme. O(1): ID kontrolu de artik indeksten, ortalama O(1).
 EklemeSonucu KitapListesi::basaEkle(const Kitap& k) {
     if (dugumBul(k.id) != nullptr) {
         return EklemeSonucu::idZatenVar;
     }
     KitapDugum* yeni = new KitapDugum{k, nullptr, nullptr};
+    indeks.ekle(k.id, yeni);      // Liste ve indeks birlikte guncellenir.
     if (bas == nullptr) {         // Liste bos: yeni dugum hem bas hem son.
         bas = yeni;
         son = yeni;
@@ -70,12 +194,13 @@ EklemeSonucu KitapListesi::basaEkle(const Kitap& k) {
     return EklemeSonucu::basarili;
 }
 
-// Sona ekleme. son isaretcisi tutuldugu icin O(1) (ID kontrolu haric).
+// Sona ekleme. son isaretcisi tutuldugu icin O(1); ID kontrolu ortalama O(1).
 EklemeSonucu KitapListesi::sonaEkle(const Kitap& k) {
     if (dugumBul(k.id) != nullptr) {
         return EklemeSonucu::idZatenVar;
     }
     KitapDugum* yeni = new KitapDugum{k, nullptr, nullptr};
+    indeks.ekle(k.id, yeni);      // Liste ve indeks birlikte guncellenir.
     if (son == nullptr) {
         bas = yeni;
         son = yeni;
@@ -88,7 +213,7 @@ EklemeSonucu KitapListesi::sonaEkle(const Kitap& k) {
     return EklemeSonucu::basarili;
 }
 
-// hedefId'li kitabin hemen onune ekler. O(n), cunku hedef aranir.
+// hedefId'li kitabin hemen onune ekler. Hedef indeksten bulunur: ortalama O(1).
 EklemeSonucu KitapListesi::oncesineEkle(int hedefId, const Kitap& k) {
     KitapDugum* hedef = dugumBul(hedefId);
     if (hedef == nullptr) {
@@ -101,6 +226,7 @@ EklemeSonucu KitapListesi::oncesineEkle(int hedefId, const Kitap& k) {
         return basaEkle(k);
     }
     KitapDugum* yeni = new KitapDugum{k, nullptr, nullptr};
+    indeks.ekle(k.id, yeni);      // Liste ve indeks birlikte guncellenir.
     yeni->prev = hedef->prev;     // 1) yeni, hedefin eski oncekisini gosterir
     yeni->next = hedef;           // 2) yeni -> hedef
     hedef->prev->next = yeni;     // 3) eski onceki -> yeni
@@ -109,7 +235,8 @@ EklemeSonucu KitapListesi::oncesineEkle(int hedefId, const Kitap& k) {
     return EklemeSonucu::basarili;
 }
 
-// ID'ye gore silme. Bas, orta, son ve tek dugum durumlarini kapsar. O(n).
+// ID'ye gore silme. Bas, orta, son ve tek dugum durumlarini kapsar.
+// Hedef indeksten bulunur, prev isaretcisi sayesinde sokme O(1): toplam ortalama O(1).
 // Kural: oduncteki kitap silinmez. Yoksa bekleme kuyrugu olmayan bir kitabi bekler.
 SilmeSonucu KitapListesi::sil(int id) {
     KitapDugum* hedef = dugumBul(id);
@@ -119,6 +246,9 @@ SilmeSonucu KitapListesi::sil(int id) {
     if (hedef->veri.oduncte) {
         return SilmeSonucu::oduncte;
     }
+    // SIRA: once indeksten cikar, sonra listeden sok, en son delete.
+    // Ters sirada indekste silinmis dugumu gosteren (sarkan) bir isaretci kalirdi.
+    indeks.sil(id);
     // Onceki dugum varsa onu hedefin sonrakine bagla; yoksa hedef bastir.
     if (hedef->prev != nullptr) {
         hedef->prev->next = hedef->next;
@@ -136,7 +266,7 @@ SilmeSonucu KitapListesi::sil(int id) {
     return SilmeSonucu::basarili;
 }
 
-// Kitabi bulur ve durumunu degistirir. O(n), cunku kitap aranir.
+// Kitabi indeksten bulur ve durumunu degistirir. Ortalama O(1).
 bool KitapListesi::durumDegistir(int id, bool oduncte) {
     KitapDugum* d = dugumBul(id);
     if (d == nullptr) {
@@ -170,6 +300,7 @@ int KitapListesi::temizle() {
     }
     son = nullptr;
     adet = 0;
+    indeks.temizle();  // Indeks kayitlari silinmis dugumleri gostermesin.
     return silinen;
 }
 
@@ -319,10 +450,10 @@ static bool satirCoz(const std::string& satir, Kitap& k) {
 }
 
 // Dosyadaki kitaplari ONCE bos bir gecici listeye okur, sonra katalogla yer degistirir.
-// Yer degistirme yalniz uc degeri takas eder (bas, son, adet): dugum kopyalanmaz, O(1).
+// Yer degistirme uc degeri (bas, son, adet) ve 31 kova isaretcisini takas eder: dugum kopyalanmaz.
 // Fonksiyon bitince gecici listenin yikicisi ESKI katalogun dugumlerini siler.
 // Dosya acilamazsa katalog hic degismez. Bozuk ya da tekrar eden ID'li satir atlanir.
-// Dondurur: yuklenen kitap sayisi, dosya acilamazsa -1. Sure: O(n^2), cunku sonaEkle ID'yi arar.
+// Dondurur: yuklenen kitap sayisi, dosya acilamazsa -1. Sure: ortalama O(n), ID kontrolu indeksten.
 int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
     atlanan = 0;
     std::ifstream dosya(dosyaAdi);
@@ -344,6 +475,7 @@ int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
     std::swap(bas, gecici.bas);
     std::swap(son, gecici.son);
     std::swap(adet, gecici.adet);
+    indeks.takas(gecici.indeks);  // Indeks de yer degistirir; eskisini gecici siler.
     return adet;
 }
 
@@ -480,6 +612,51 @@ static void eklemeSonucuYaz(EklemeSonucu sonuc, const Kitap& k, const std::strin
     }
 }
 
+// Ayni ID'yi iki yolla arar ve karsilastirma sayilarini yan yana yazar.
+static void aramaKarsilastir(const KitapListesi& katalog, int id) {
+    bool dogrusalBuldu = false;
+    bool hashBuldu = false;
+    const int dogrusal = katalog.dogrusalAramaAdimi(id, dogrusalBuldu);
+    const int hash = katalog.hashAramaAdimi(id, hashBuldu);
+    std::cout << "ID " << id << (hashBuldu ? " bulundu" : " bulunamadi") << " (kova " << id % kovaSayisi
+              << ")\n"
+              << "  Dogrusal arama (liste): " << dogrusal << " karsilastirma\n"
+              << "  Hash indeksi (zincir) : " << hash << " karsilastirma\n";
+    if (dogrusalBuldu != hashBuldu) {
+        std::cout << "  HATA: liste ve indeks uyusmuyor!\n";  // Tutarlilik kurali bozulursa gorunur.
+    }
+}
+
+// 1000 kitaplik gecici bir katalog kurar; her ID'yi iki yolla arayip ortalama adimi hesaplar.
+// ID'ler 1..1000 artan: kovalara esit dagilir (id % 31). Gecici katalog fonksiyon sonunda silinir.
+static void hashDenemesi() {
+    const int n = 1000;
+    KitapListesi deneme;
+    for (int id = 1; id <= n; id++) {
+        deneme.sonaEkle(Kitap{id, "Deneme", "Yazar", 100, false, 0});
+    }
+    long long dogrusalToplam = 0;
+    long long hashToplam = 0;
+    int dogrusalEnKotu = 0;
+    int hashEnKotu = 0;
+    bool bulundu = false;
+    for (int id = 1; id <= n; id++) {
+        const int d = deneme.dogrusalAramaAdimi(id, bulundu);
+        const int h = deneme.hashAramaAdimi(id, bulundu);
+        dogrusalToplam += d;
+        hashToplam += h;
+        if (d > dogrusalEnKotu) dogrusalEnKotu = d;
+        if (h > hashEnKotu) hashEnKotu = h;
+    }
+    std::cout << "1000 kitaplik deneme (her ID bir kez aranir):\n" << std::fixed << std::setprecision(1)
+              << "  Dogrusal: ortalama " << static_cast<double>(dogrusalToplam) / n
+              << " karsilastirma, en kotu " << dogrusalEnKotu << '\n'
+              << "  Hash    : ortalama " << static_cast<double>(hashToplam) / n
+              << " karsilastirma, en kotu " << hashEnKotu << '\n';
+    std::cout.unsetf(std::ios::fixed);
+    std::cout << std::setprecision(6);
+}
+
 void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis,
                 IslemYigini& geriAlma) {
     int secim = -1;
@@ -499,8 +676,10 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                   << " 12) Dosyadan oku ve goster\n"
                   << " 13) Katalogu bosalt (bos liste testi)\n"
                   << " 14) Dosyadan kataloga yukle (" << katalogDosyasi << ")\n"
+                  << " 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)\n"
+                  << " 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme\n"
                   << "  0) Ana menuye don\n";
-        secim = tamSayiOku("Seciminiz: ", 0, 14);
+        secim = tamSayiOku("Seciminiz: ", 0, 16);
 
         switch (secim) {
         case 1:
@@ -655,6 +834,14 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             break;
         }
+        case 15:
+            aramaKarsilastir(katalog, tamSayiOku("Aranan kitap ID: ", 1, 999999));
+            break;
+        case 16:
+            std::cout << "Katalog indeksi (hash = ID % " << kovaSayisi << "):\n";
+            katalog.indeksDagilimiYazdir();
+            hashDenemesi();
+            break;
         default:
             break;  // 0: donguden cikar
         }
