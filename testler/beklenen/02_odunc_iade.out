@@ -1,0 +1,412 @@
+
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Ogrenci numarasi: Ad soyad: Talep edilen kitap ID: Kitap rafta. Odunc verildi: Ince Memed -> Can Oruc
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Ogrenci numarasi: Ad soyad: Talep edilen kitap ID: Kitap oduncte. Ali Kaya bekleme sirasina eklendi. Kuyruktaki yeri: 3
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Ogrenci numarasi: Ad soyad: Talep edilen kitap ID: Bu ogrenci bu kitap icin zaten sirada.
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Ogrenci numarasi: Ad soyad: Talep edilen kitap ID: Kitap oduncte. Zeynep Ak bekleme sirasina eklendi. Kuyruktaki yeri: 4
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Bekleme sirasi (ilk gelen en onde):
+  1) 2026001 - Ayse Yilmaz -> Suc ve Ceza (ID 101)   <- on
+  2) 2026002 - Mehmet Demir -> Sefiller (ID 104)
+  3) 2026011 - Ali Kaya -> Ince Memed (ID 105)
+  4) 2026012 - Zeynep Ak -> Suc ve Ceza (ID 101)
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Kitap bekleyen ilk ogrenciye verildi: 2026001 - Ayse Yilmaz
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Bekleme sirasi (ilk gelen en onde):
+  1) 2026002 - Mehmet Demir -> Sefiller (ID 104)   <- on
+  2) 2026011 - Ali Kaya -> Ince Memed (ID 105)
+  3) 2026012 - Zeynep Ak -> Suc ve Ceza (ID 101)
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Bu kitap zaten rafta. Iade alinmadi.
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Bu ID katalogda yok: 999
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Kitap bekleyen ilk ogrenciye verildi: 2026011 - Ali Kaya
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Bekleyen yok, kitap rafa dondu: Ince Memed
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Siradan cikti (talep iptal): 2026002 - Mehmet Demir -> Sefiller
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Bekleme sirasi (ilk gelen en onde):
+  1) 2026012 - Zeynep Ak -> Suc ve Ceza (ID 101)   <- on
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Yigin (ustten alta, en yeni en ustte):
+  1) Talep iptal: 2026002 -> ID 104   <- ust
+  2) Iade alindi: ID 105, rafa dondu
+  3) Iade alindi: ID 105, siradaki ogrenciye verildi: 2026011
+  4) Iade alindi: ID 101, siradaki ogrenciye verildi: 2026001
+  5) Bekleme sirasina eklendi: 2026012 -> ID 101
+  6) Bekleme sirasina eklendi: 2026011 -> ID 105
+  7) Odunc verildi: ID 105 -> 2026010
+  8) Ornek veriler yuklendi
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz:   1) Final haftasinda kutuphane 24 saat acik.
+  2) Yeni gelen kitaplar 2. katta sergileniyor.
+  3) Odunc suresi 15 gundur; gecikmede yeni odunc verilmez.
+  4) Sira size geldi: Ayse Yilmaz (2026001), kitap: Suc ve Ceza
+  5) Sira size geldi: Ali Kaya (2026011), kitap: Ince Memed
+Bir tam tur tamamlandi, baslangica donuldu: "Final haftasinda kutuphane 24 saat acik."
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
+--------------------------------------------------------------------------------------------
+105    Ince Memed                      Yasar Kemal               436    rafta (5)
+102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
+108    1984                            George Orwell             352    rafta (2)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (5)
+107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
+104    Sefiller                        Victor Hugo               1463   oduncte (2)
+106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
+103    Simyaci                         Paulo Coelho              188    rafta (6)
+Toplam 8 kitap (bastan sona).
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap oduncte, silinemez: ID 101. Once iade alin.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap silindi: ID 105
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Oduncte kitap var. Katalog bosaltilamaz; once iadeleri alin.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+Canli dugum (temizlikten once): 30
+
+Bellek temizleniyor (delete):
+  Kitap dugumu   : 7
+  Duyuru dugumu  : 5
+  Kuyruk dugumu  : 1
+  Gecmis dugumu  : 9
+  Geri alma dug. : 1
+Canli dugum (temizlikten sonra): 0, canli dizi: 0  -> sizinti yok
+Program kapandi.

@@ -1,0 +1,157 @@
+
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Aranan kitap ID: ID 104 bulundu (kova 11)
+  Dogrusal arama (liste): 6 karsilastirma
+  Hash indeksi (zincir) : 1 karsilastirma
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Aranan kitap ID: ID 999 bulunamadi (kova 7)
+  Dogrusal arama (liste): 8 karsilastirma
+  Hash indeksi (zincir) : 0 karsilastirma
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog indeksi (hash = ID % 31):
+  kova  8: 101
+  kova  9: 102
+  kova 10: 103
+  kova 11: 104
+  kova 12: 105
+  kova 13: 106
+  kova 14: 107
+  kova 15: 108
+8 kayit, 31 kova, 8 kova dolu, en uzun zincir 1. Yuk faktoru alfa = 8/31 = 0.26
+1000 kitaplik deneme (her ID bir kez aranir):
+  Dogrusal: ortalama 500.5 karsilastirma, en kotu 1000
+  Hash    : ortalama 16.6 karsilastirma, en kotu 33
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Katalog (karisik sira) (n = 8)
+  Pivot son eleman :       16 karsilastirma, 7 takas
+  Pivot ortanca-uc :       23 karsilastirma, 11 takas
+Zaten sirali ID'ler (n = 1000)
+  Pivot son eleman :   499500 karsilastirma, 0 takas
+  Pivot ortanca-uc :     9451 karsilastirma, 976 takas
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+Canli dugum (temizlikten once): 23
+
+Bellek temizleniyor (delete):
+  Kitap dugumu   : 8
+  Duyuru dugumu  : 3
+  Kuyruk dugumu  : 2
+  Gecmis dugumu  : 2
+  Geri alma dug. : 0
+Canli dugum (temizlikten sonra): 0, canli dizi: 0  -> sizinti yok
+Program kapandi.

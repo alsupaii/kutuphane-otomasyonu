@@ -1,0 +1,470 @@
+
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Once:
+  Indis ID     Kitap adi                       Sayfa
+  0     105    Ince Memed                      436
+  1     102    Kurk Mantolu Madonna            160
+  2     108    1984                            352
+  3     101    Suc ve Ceza                     687
+  4     107    Kucuk Prens                     112
+  5     104    Sefiller                        1463
+  6     106    Saatleri Ayarlama Enstitusu     382
+  7     103    Simyaci                         188
+Bubble Sort sonrasi (sayfa artan):
+  Indis ID     Kitap adi                       Sayfa
+  0     107    Kucuk Prens                     112
+  1     102    Kurk Mantolu Madonna            160
+  2     103    Simyaci                         188
+  3     108    1984                            352
+  4     106    Saatleri Ayarlama Enstitusu     382
+  5     105    Ince Memed                      436
+  6     101    Suc ve Ceza                     687
+  7     104    Sefiller                        1463
+Karsilastirma sayisi: 27
+Takas sayisi: 14
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Once:
+  Indis ID     Kitap adi                       Sayfa
+  0     105    Ince Memed                      436
+  1     102    Kurk Mantolu Madonna            160
+  2     108    1984                            352
+  3     101    Suc ve Ceza                     687
+  4     107    Kucuk Prens                     112
+  5     104    Sefiller                        1463
+  6     106    Saatleri Ayarlama Enstitusu     382
+  7     103    Simyaci                         188
+Insertion Sort sonrasi (sayfa artan):
+  Indis ID     Kitap adi                       Sayfa
+  0     107    Kucuk Prens                     112
+  1     102    Kurk Mantolu Madonna            160
+  2     103    Simyaci                         188
+  3     108    1984                            352
+  4     106    Saatleri Ayarlama Enstitusu     382
+  5     105    Ince Memed                      436
+  6     101    Suc ve Ceza                     687
+  7     104    Sefiller                        1463
+Karsilastirma sayisi: 19
+Kaydirma sayisi: 14
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Once:
+  Indis ID     Kitap adi                       Sayfa
+  0     105    Ince Memed                      436
+  1     102    Kurk Mantolu Madonna            160
+  2     108    1984                            352
+  3     101    Suc ve Ceza                     687
+  4     107    Kucuk Prens                     112
+  5     104    Sefiller                        1463
+  6     106    Saatleri Ayarlama Enstitusu     382
+  7     103    Simyaci                         188
+Quick Sort sonrasi (ID artan):
+  Indis ID     Kitap adi                       Sayfa
+  0     101    Suc ve Ceza                     687
+  1     102    Kurk Mantolu Madonna            160
+  2     103    Simyaci                         188
+  3     104    Sefiller                        1463
+  4     105    Ince Memed                      436
+  5     106    Saatleri Ayarlama Enstitusu     382
+  6     107    Kucuk Prens                     112
+  7     108    1984                            352
+Karsilastirma sayisi: 16
+Takas sayisi: 7
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Aranan kitap ID: Dizi Quick Sort ile ID'ye gore siralandi:
+  Indis ID     Kitap adi                       Sayfa
+  0     101    Suc ve Ceza                     687
+  1     102    Kurk Mantolu Madonna            160
+  2     103    Simyaci                         188
+  3     104    Sefiller                        1463
+  4     105    Ince Memed                      436
+  5     106    Saatleri Ayarlama Enstitusu     382
+  6     107    Kucuk Prens                     112
+  7     108    1984                            352
+  Adim 1: alt=0 ust=7 orta=3 (ID 104)
+  Adim 2: alt=4 ust=7 orta=5 (ID 106)
+BULUNDU: ID 106 -> Saatleri Ayarlama Enstitusu (indis 5, 2 adim)
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Aranan kitap ID: Dizi Quick Sort ile ID'ye gore siralandi:
+  Indis ID     Kitap adi                       Sayfa
+  0     101    Suc ve Ceza                     687
+  1     102    Kurk Mantolu Madonna            160
+  2     103    Simyaci                         188
+  3     104    Sefiller                        1463
+  4     105    Ince Memed                      436
+  5     106    Saatleri Ayarlama Enstitusu     382
+  6     107    Kucuk Prens                     112
+  7     108    1984                            352
+  Adim 1: alt=0 ust=7 orta=3 (ID 104)
+  Adim 2: alt=4 ust=7 orta=5 (ID 106)
+  Adim 3: alt=6 ust=7 orta=6 (ID 107)
+  Adim 4: alt=7 ust=7 orta=7 (ID 108)
+BULUNAMADI: ID 999 (4 adim)
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Kitap bekleyen ilk ogrenciye verildi: 2026001 - Ayse Yilmaz
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Bekleyen yok, kitap rafa dondu: Suc ve Ceza
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Kitap bekleyen ilk ogrenciye verildi: 2026002 - Mehmet Demir
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Iade edilen kitap ID: Iade alindi. Bekleyen yok, kitap rafa dondu: Sefiller
+
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Tum kitaplar silinsin mi? (1 = evet, 0 = hayir): 8 kitap dugumu silindi. Katalog bos.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog bos. Listelenecek kitap yok.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog bos. Listelenecek kitap yok.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog bos. Analiz yapilamaz.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog bos. Silinecek kitap yok.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Katalog bos. Onune eklenecek kitap yok.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Katalog bos. Diziye aktarilacak kitap yok.
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+Baslangic birimi (1-6): Hedef birim (1-6): En kisa rota: Merkez Kutuphane -> MYO Bilgisayar Lab. -> Muhendislik Binasi -> Konferans Salonu
+Toplam mesafe: 520 metre
+
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+Canli dugum (temizlikten once): 17
+
+Bellek temizleniyor (delete):
+  Kitap dugumu   : 0
+  Duyuru dugumu  : 5
+  Kuyruk dugumu  : 0
+  Gecmis dugumu  : 12
+  Geri alma dug. : 0
+Canli dugum (temizlikten sonra): 0, canli dizi: 0  -> sizinti yok
+Program kapandi.

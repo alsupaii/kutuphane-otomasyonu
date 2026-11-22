@@ -1,0 +1,10 @@
+101|Suc ve Ceza|Dostoyevski|687|1|4
+201|Eski Bicim|Yazar A|120
+abc|Bozuk ID|Yazar|10
+202|Fazla|Alan|10|0|1|9
+101|Tekrar ID|Yazar|50|0|0
+203|Sifir Sayfa|Yazar|0|0|0
+204|Durum Iki|Yazar|10|2|0
+
+205|Bos Yazar||10|0|0
+206|Son Satir|Yazar B|300|0|7

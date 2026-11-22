@@ -9,5 +9,5 @@ if errorlevel 1 (
   pause
   exit /b 1
 )
-kutuphane.exe
+.\kutuphane.exe
 pause

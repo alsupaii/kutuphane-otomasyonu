@@ -1,0 +1,568 @@
+
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Kitap ID (1-999999): Kitap adi: Yazar adi: Sayfa sayisi (1-100000): Kitap eklendi (basa): A
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Kitap ID (1-999999): Kitap adi: Yazar adi: Sayfa sayisi (1-100000): Kitap eklendi (sona): C
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Hangi ID'nin onune eklensin: Yeni kitap ID (1-999999): Kitap adi: Yazar adi: Sayfa sayisi (1-100000): Kitap eklendi (ID 101 onune): E
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
+--------------------------------------------------------------------------------------------
+100    A                               B                         10     rafta (0)
+105    Ince Memed                      Yasar Kemal               436    rafta (3)
+102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
+108    1984                            George Orwell             352    rafta (2)
+150    E                               F                         30     rafta (0)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
+104    Sefiller                        Victor Hugo               1463   oduncte (2)
+106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
+103    Simyaci                         Paulo Coelho              188    rafta (6)
+200    C                               D                         20     rafta (0)
+Toplam 11 kitap (bastan sona).
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap silindi: ID 100
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap oduncte, silinemez: ID 101. Once iade alin.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap silindi: ID 108
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Kitap silindi: ID 200
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Silinecek kitap ID: Bu ID ile kitap bulunamadi: 999
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Kitap ID (1-999999): Bu ID zaten kayitli: 105
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
+--------------------------------------------------------------------------------------------
+103    Simyaci                         Paulo Coelho              188    rafta (6)
+106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
+104    Sefiller                        Victor Hugo               1463   oduncte (2)
+107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+150    E                               F                         30     rafta (0)
+102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
+105    Ince Memed                      Yasar Kemal               436    rafta (3)
+Toplam 8 kitap (sondan basa).
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Toplam kitap sayisi : 8
+Toplam sayfa sayisi : 3458
+Ortalama sayfa      : 432.25
+En az sayfali kitap : E (30)
+En cok sayfali kitap: Sefiller (1463)
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Sayfa esigi (0-100000): ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
+--------------------------------------------------------------------------------------------
+105    Ince Memed                      Yasar Kemal               436    rafta (3)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+104    Sefiller                        Victor Hugo               1463   oduncte (2)
+400 sayfayi asan 3 kitap bulundu.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: Duyuru metni: Duyuru eklendi. Toplam duyuru: 4
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz:   1) Final haftasinda kutuphane 24 saat acik.
+  2) Yeni gelen kitaplar 2. katta sergileniyor.
+  3) Odunc suresi 15 gundur; gecikmede yeni odunc verilmez.
+  4) Yeni duyuru
+Bir tam tur tamamlandi, baslangica donuldu: "Final haftasinda kutuphane 24 saat acik."
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: 8 kayit katalog.txt dosyasina yazildi.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
+--------------------------------------------------------------------------------------------
+105    Ince Memed                      Yasar Kemal               436    rafta (3)
+102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
+150    E                               F                         30     rafta (0)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
+104    Sefiller                        Victor Hugo               1463   oduncte (2)
+106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
+103    Simyaci                         Paulo Coelho              188    rafta (6)
+8 kayit dosyadan okundu.
+
+=== MODUL 1: KATALOG VE DUYURULAR ===
+  1) Kitaplari listele (ileri, next)
+  2) Kitaplari listele (geri, prev)
+  3) Basa kitap ekle
+  4) Sona kitap ekle
+  5) Bir ID'nin onune kitap ekle
+  6) ID ile kitap sil
+  7) Katalog analizi
+  8) Sayfa esigini asan kitaplar
+  9) Duyuru ekle
+ 10) Duyurulari bir tam tur yazdir
+ 11) Katalogu dosyaya yaz (katalog.txt)
+ 12) Dosyadan oku ve goster
+ 13) Katalogu bosalt (bos liste testi)
+ 14) Dosyadan kataloga yukle (katalog.txt)
+ 15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
+ 16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: Bagli listeden diziye 8 kayit aktarildi:
+  Indis ID     Kitap adi                       Sayfa
+  0     105    Ince Memed                      436
+  1     102    Kurk Mantolu Madonna            160
+  2     150    E                               30
+  3     101    Suc ve Ceza                     687
+  4     107    Kucuk Prens                     112
+  5     104    Sefiller                        1463
+  6     106    Saatleri Ayarlama Enstitusu     382
+  7     103    Simyaci                         188
+
+=== MODUL 3: SIRALAMA VE ARAMA ===
+  1) Katalogu diziye aktar ve goster
+  2) Bubble Sort (sayfa sayisina gore)
+  3) Insertion Sort (sayfa sayisina gore)
+  4) Quick Sort (ID'ye gore)
+  5) Binary Search (ID ile, Quick Sort sonrasi)
+  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)
+  0) Ana menuye don
+Seciminiz: 
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+
+Komsuluk matrisi (metre, '-' = dogrudan yol yok):
+          1     2     3     4     5     6
+    1     0   120   300   200     -     -
+    2   120     0   150     -   400     -
+    3   300   150     0     -     -   250
+    4   200     -     -     0   180   500
+    5     -   400     -   180     0   220
+    6     -     -   250   500   220     0
+
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+Baslangic birimi (1-6): BFS sirasi: Merkez Kutuphane -> MYO Bilgisayar Lab. -> Muhendislik Binasi -> Ogrenci Isleri -> Yemekhane ve Sosyal Alan -> Konferans Salonu
+
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+Baslangic birimi (1-6): DFS sirasi: Merkez Kutuphane -> MYO Bilgisayar Lab. -> Muhendislik Binasi -> Konferans Salonu -> Ogrenci Isleri -> Yemekhane ve Sosyal Alan
+
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+Baslangic birimi (1-6): Hedef birim (1-6): En kisa rota: Ogrenci Isleri
+Toplam mesafe: 0 metre
+
+=== MODUL 4: KAMPUS ROTALARI (GRAF) ===
+  1) Birimleri listele
+  2) Komsuluk matrisini yazdir
+  3) BFS (genislik oncelikli gezinme)
+  4) DFS (derinlik oncelikli gezinme)
+  5) Dijkstra en kisa rota
+  0) Ana menuye don
+Seciminiz: Kampus birimleri:
+  1) Merkez Kutuphane
+  2) MYO Bilgisayar Lab.
+  3) Muhendislik Binasi
+  4) Ogrenci Isleri
+  5) Yemekhane ve Sosyal Alan
+  6) Konferans Salonu
+Baslangic birimi (1-6): Hedef birim (1-6): Gecersiz giris. Lutfen bir tam sayi girin.
+Hedef birim (1-6): Gecersiz secim. 1 ile 6 arasinda bir sayi girin.
+Hedef birim (1-6): Gecersiz giris. Lutfen bir tam sayi girin.
+Hedef birim (1-6): Gecersiz giris. Lutfen bir tam sayi girin.
+Hedef birim (1-6): Gecersiz secim. 1 ile 6 arasinda bir sayi girin.
+Hedef birim (1-6): Gecersiz secim. 1 ile 6 arasinda bir sayi girin.
+Hedef birim (1-6): Gecersiz secim. 1 ile 6 arasinda bir sayi girin.
+Hedef birim (1-6): 
+Girdi sona erdi.
+
+Canli dugum (temizlikten once): 40
+
+Bellek temizleniyor (delete):
+  Kitap dugumu   : 8
+  Duyuru dugumu  : 4
+  Kuyruk dugumu  : 2
+  Gecmis dugumu  : 12
+  Geri alma dug. : 6
+Canli dugum (temizlikten sonra): 0, canli dizi: 0  -> sizinti yok
+Program kapandi.

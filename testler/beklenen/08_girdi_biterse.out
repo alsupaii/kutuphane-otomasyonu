@@ -1,0 +1,36 @@
+
+========================================
+ KAMPUS KUTUPHANESI OTOMASYONU
+========================================
+  1) Modul 1 - Katalog ve duyurular (bagli listeler, dosya)
+  2) Modul 2 - Islem gecmisi ve bekleme sirasi (stack, queue)
+  3) Modul 3 - Siralama ve arama
+  4) Modul 4 - Kampus rotalari (graf)
+  0) Cikis
+Seciminiz: 
+=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===
+  1) Push: yigina islem kaydi ekle
+  2) Pop: ustteki kaydi cikar
+  3) Peek: ustteki kaydi goster
+  4) Yigini listele
+  5) Odunc talebi (rafta ise ver, oduncte ise siraya ekle: Enqueue)
+  6) Kitap iade al (bekleyen varsa siradakine ver)
+  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)
+  8) Kuyrugu listele (FIFO)
+  9) Geri al: son kitap ekleme/silme islemini geri al (undo)
+ 10) Geri alma yiginini listele
+ 11) Son 10 odunc/iade hareketi (dairesel tampon)
+  0) Ana menuye don
+Seciminiz: Islem aciklamasi: 
+Girdi sona erdi.
+
+Canli dugum (temizlikten once): 22
+
+Bellek temizleniyor (delete):
+  Kitap dugumu   : 8
+  Duyuru dugumu  : 3
+  Kuyruk dugumu  : 2
+  Gecmis dugumu  : 1
+  Geri alma dug. : 0
+Canli dugum (temizlikten sonra): 0, canli dizi: 0  -> sizinti yok
+Program kapandi.

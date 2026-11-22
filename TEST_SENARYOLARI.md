@@ -7,6 +7,18 @@ Odunc akisi (35-44) eklendi. 1-34 ayni gun yeniden kosuldu. 101 artik oduncte ba
 Geri alma (45-51) 23 Kasim'da eklendi; onceki testler yeniden kosuldu, sonuc degismedi.
 Ortanca-uc pivot ve bellek sayaci (52-56) 23 Kasim'da eklendi; tum test dosyalari yeniden kosuldu.
 
+## Testleri yeniden kosmak
+
+`testler\kos.bat` dosyasina cift tikla. Betik programi derler, 12 senaryo girdisini (`testler/NN_*.txt`)
+programa verir ve her ciktiyi `testler/beklenen/` icindeki onayli ciktiyla satir satir karsilastirir.
+Ayrica program duzgun kapandi mi ve "sizinti yok" yazdi mi diye bakar. Sonra iki birim testini calistirir:
+`siralama_testi.cpp` (ortanca-uc Quick Sort, 804 dizi) ve `tutarlilik_testi.cpp` (liste-hash, 20000 islem).
+Kod degisince onayli ciktiyi bilerek yenilemek icin: `testler\kos.bat yenile`.
+
+Betigin farki yakaladigi denendi: onayli ciktida 3728 sayisi 3729 yapilinca `[HATA ] 05_analiz` verdi.
+
+## Senaryo tablosu
+
 | # | Test | Girdi | Beklenen | Gerceklesen |
 |---|---|---|---|---|
 | 1 | Ileri ve geri listeleme | M1 → 1, 2 | Ayni 8 kayit, ters sirada | Dogru (105…103 / 103…105) |

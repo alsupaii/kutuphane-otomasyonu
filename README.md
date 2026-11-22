@@ -71,7 +71,7 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-71 senaryo: `TEST_SENARYOLARI.md`.
+71 senaryo: `TEST_SENARYOLARI.md`. Hepsini yeniden kosmak icin `testler\kos.bat` (12 girdi dosyasi + 2 birim testi, ciktilar onayli ciktiyla karsilastirilir).
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
