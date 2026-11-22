@@ -14,6 +14,8 @@ struct Kitap {
     std::string ad;
     std::string yazar;
     int sayfa;
+    bool oduncte;     // true: bir ogrencide, false: rafta
+    int oduncSayisi;  // Kac kez odunc verildi (Modul 3 bu alana gore siralar)
 };
 
 // Cift yonlu bagli liste dugumu: hem onceki (prev) hem sonraki (next) dugumu bilir.
@@ -24,6 +26,7 @@ struct KitapDugum {
 };
 
 enum class EklemeSonucu { basarili, idZatenVar, hedefYok };
+enum class SilmeSonucu { basarili, bulunamadi, oduncte };
 
 class KitapListesi {
 public:
@@ -36,8 +39,13 @@ public:
     EklemeSonucu basaEkle(const Kitap& k);
     EklemeSonucu sonaEkle(const Kitap& k);
     EklemeSonucu oncesineEkle(int hedefId, const Kitap& k);
-    bool sil(int id);
+    SilmeSonucu sil(int id);  // Oduncteki kitap silinmez.
     int temizle();  // Tum dugumleri siler, silinen dugum sayisini dondurur.
+
+    // Odunc durumunu degistirir. oduncte = true ise oduncSayisi 1 artar.
+    // Kitap yoksa false dondurur.
+    bool durumDegistir(int id, bool oduncte);
+    bool oduncteKitapVarMi() const;
 
     const KitapDugum* bul(int id) const;
     bool bosMu() const;

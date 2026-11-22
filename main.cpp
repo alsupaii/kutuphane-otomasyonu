@@ -12,16 +12,18 @@
 
 // Test icin baslangic verileri. ID'ler bilerek karisik sirada:
 // boylece Quick Sort'un isi gorunur.
+// Son iki alan: oduncte mi, kac kez odunc verildi (gecmis donemden ornek sayilar).
+// Kuyruktaki iki ogrenci 101 ve 104'u bekliyor; bu yuzden o iki kitap oduncte.
 static void ornekVerileriYukle(KitapListesi& katalog, DuyuruListesi& duyurular,
                                BeklemeKuyrugu& kuyruk, IslemYigini& gecmis) {
-    katalog.sonaEkle(Kitap{105, "Ince Memed", "Yasar Kemal", 436});
-    katalog.sonaEkle(Kitap{102, "Kurk Mantolu Madonna", "Sabahattin Ali", 160});
-    katalog.sonaEkle(Kitap{108, "1984", "George Orwell", 352});
-    katalog.sonaEkle(Kitap{101, "Suc ve Ceza", "Fyodor Dostoyevski", 687});
-    katalog.sonaEkle(Kitap{107, "Kucuk Prens", "Antoine de Saint-Exupery", 112});
-    katalog.sonaEkle(Kitap{104, "Sefiller", "Victor Hugo", 1463});
-    katalog.sonaEkle(Kitap{106, "Saatleri Ayarlama Enstitusu", "Ahmet Hamdi Tanpinar", 382});
-    katalog.sonaEkle(Kitap{103, "Simyaci", "Paulo Coelho", 188});
+    katalog.sonaEkle(Kitap{105, "Ince Memed", "Yasar Kemal", 436, false, 3});
+    katalog.sonaEkle(Kitap{102, "Kurk Mantolu Madonna", "Sabahattin Ali", 160, false, 5});
+    katalog.sonaEkle(Kitap{108, "1984", "George Orwell", 352, false, 2});
+    katalog.sonaEkle(Kitap{101, "Suc ve Ceza", "Fyodor Dostoyevski", 687, true, 4});
+    katalog.sonaEkle(Kitap{107, "Kucuk Prens", "Antoine de Saint-Exupery", 112, false, 1});
+    katalog.sonaEkle(Kitap{104, "Sefiller", "Victor Hugo", 1463, true, 2});
+    katalog.sonaEkle(Kitap{106, "Saatleri Ayarlama Enstitusu", "Ahmet Hamdi Tanpinar", 382, false, 0});
+    katalog.sonaEkle(Kitap{103, "Simyaci", "Paulo Coelho", 188, false, 6});
 
     duyurular.ekle("Final haftasinda kutuphane 24 saat acik.");
     duyurular.ekle("Yeni gelen kitaplar 2. katta sergileniyor.");
@@ -68,7 +70,7 @@ int main() {
                 modul1Menu(katalog, duyurular, gecmis);
                 break;
             case 2:
-                modul2Menu(gecmis, kuyruk, katalog);
+                modul2Menu(gecmis, kuyruk, katalog, duyurular);
                 break;
             case 3:
                 modul3Menu(katalog, gecmis);

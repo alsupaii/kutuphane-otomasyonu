@@ -9,14 +9,19 @@ Kitap kataloğunu, duyuru panosunu, işlem geçmişini, ödünç bekleme sıras�
 | Modül | Dosya | Yapı | Kullanım |
 |---|---|---|---|
 | 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` |
-| 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack ve Queue | İşlem geçmişi, ödünç bekleme sırası |
+| 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack ve Queue | İşlem geçmişi, ödünç verme, iade, ödünç bekleme sırası |
 | 3 | `modul3.h/.cpp` | Dinamik dizi + Bubble, Insertion, Quick Sort, Binary Search | Sayfa/ID sıralama, ID arama |
 | 4 | `modul4.h/.cpp` | Komşuluk matrisli ağırlıklı graf, BFS, DFS, Dijkstra | Kampüs rotaları |
 | — | `ortak.h/.cpp` | Güvenli girdi okuma | Tüm menüler |
 
 **Modüller arası bağlantı:**
+- **Ödünç akışı dört yapıyı birlikte değiştirir:**
+  - Ödünç talebinde kitap raftaysa katalogda "ödünçte" olur. Kitap ödünçteyse öğrenci kuyruğa girer.
+  - İadede kitabı bekleyen ilk öğrenci kuyruktan çıkar ve kitap ona geçer. Duyuru listesine "Sıra size geldi" yazılır.
+  - Her adım yığına kayıt yazar.
+- Bekleyen öğrenciyi bulmak için kuyruk bir tam tur döndürülür: her öğrenci önden çıkar, arkaya geri girer. Yalnız Enqueue ve Dequeue kullanılır, FIFO sırası bozulmaz.
+- Ödünçteki kitap silinemez. Ödünçte kitap varken katalog boşaltılamaz.
 - Modül 1, 3 ve 4'teki işlemler Modül 2'nin yığınına kayıt yazar.
-- Modül 2'deki kuyruk, talep edilen kitabı Modül 1'in kataloğunda arar.
 - Modül 3, Modül 1'in bağlı listesini diziye aktarır.
 
 ## Derleme ve çalıştırma
@@ -37,10 +42,12 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-34 senaryo: `TEST_SENARYOLARI.md`.
+44 senaryo: `TEST_SENARYOLARI.md`.
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
 - Dosyadan okuma kayıtları ekranda gösterir, kataloğa geri yüklemez.
 - Metin alanlarında `|` karakteri kullanılamaz, çünkü dosyada ayıraç olarak kullanılıyor.
+- Kitabın hangi öğrencide olduğu tutulmaz, yalnız ödünçte olup olmadığı tutulur. Bu yüzden iadede kimin getirdiği sorulmaz.
+- Dosyaya ödünç durumu yazılmaz; dosyada yalnız `id|ad|yazar|sayfa` vardır.
 - Konsol mesajları ASCII'dir (yönerge gereği Türkçe karakter yok).

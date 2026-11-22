@@ -5,7 +5,8 @@
 
 #include <string>
 
-class KitapListesi;  // Modul 1'de tanimli. Kuyruk, talep edilen kitabi katalogda arar.
+class KitapListesi;   // Modul 1'de tanimli. Odunc akisi kitabin durumunu degistirir.
+class DuyuruListesi;  // Modul 1'de tanimli. Sirasi gelen ogrenci icin duyuru yazilir.
 
 // ---------------- Yigin (LIFO: son giren ilk cikar) ----------------
 
@@ -57,6 +58,10 @@ public:
 
     void enqueue(const Ogrenci& o);
     bool dequeue(Ogrenci& cikan);       // Bossa false
+    // kitapId'yi bekleyen ILK ogrenciyi cikarir; digerlerinin sirasi korunur.
+    // Yalniz enqueue/dequeue kullanir. Bekleyen yoksa false.
+    bool ilkBekleyeniCikar(int kitapId, Ogrenci& cikan);
+    bool siradaMi(const std::string& ogrenciNo, int kitapId) const;
     void listele() const;
     bool bosMu() const;
     int boyut() const;
@@ -68,6 +73,7 @@ private:
     int adet;
 };
 
-void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, const KitapListesi& katalog);
+void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katalog,
+                DuyuruListesi& duyurular);
 
 #endif

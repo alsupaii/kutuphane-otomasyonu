@@ -13,15 +13,18 @@ static const std::string katalogDosyasi = "katalog.txt";
 // Yardimci yazdirma fonksiyonlari
 // ---------------------------------------------------------------
 
-static void tabloBasligiYaz() {
+// durumSutunu = false: dosyadan okunan kayitlar icin (dosyada durum alani yok).
+static void tabloBasligiYaz(bool durumSutunu) {
     std::cout << std::left << std::setw(7) << "ID" << std::setw(32) << "Kitap adi"
-              << std::setw(26) << "Yazar" << "Sayfa\n";
-    std::cout << std::string(70, '-') << '\n';
+              << std::setw(26) << "Yazar" << std::setw(7) << "Sayfa"
+              << (durumSutunu ? "Durum (odunc sayisi)" : "") << '\n';
+    std::cout << std::string(durumSutunu ? 92 : 72, '-') << '\n';
 }
 
 static void kitapSatiriYaz(const Kitap& k) {
     std::cout << std::left << std::setw(7) << k.id << std::setw(32) << k.ad
-              << std::setw(26) << k.yazar << k.sayfa << '\n';
+              << std::setw(26) << k.yazar << std::setw(7) << k.sayfa
+              << (k.oduncte ? "oduncte" : "rafta") << " (" << k.oduncSayisi << ")\n";
 }
 
 // ---------------------------------------------------------------
@@ -108,10 +111,14 @@ EklemeSonucu KitapListesi::oncesineEkle(int hedefId, const Kitap& k) {
 }
 
 // ID'ye gore silme. Bas, orta, son ve tek dugum durumlarini kapsar. O(n).
-bool KitapListesi::sil(int id) {
+// Kural: oduncteki kitap silinmez. Yoksa bekleme kuyrugu olmayan bir kitabi bekler.
+SilmeSonucu KitapListesi::sil(int id) {
     KitapDugum* hedef = dugumBul(id);
     if (hedef == nullptr) {
-        return false;
+        return SilmeSonucu::bulunamadi;
+    }
+    if (hedef->veri.oduncte) {
+        return SilmeSonucu::oduncte;
     }
     // Onceki dugum varsa onu hedefin sonrakine bagla; yoksa hedef bastir.
     if (hedef->prev != nullptr) {
@@ -127,7 +134,30 @@ bool KitapListesi::sil(int id) {
     }
     delete hedef;
     adet--;
+    return SilmeSonucu::basarili;
+}
+
+// Kitabi bulur ve durumunu degistirir. O(n), cunku kitap aranir.
+bool KitapListesi::durumDegistir(int id, bool oduncte) {
+    KitapDugum* d = dugumBul(id);
+    if (d == nullptr) {
+        return false;
+    }
+    if (oduncte) {
+        d->veri.oduncSayisi++;  // Her odunc verme bir kez sayilir.
+    }
+    d->veri.oduncte = oduncte;
     return true;
+}
+
+// En az bir kitap oduncteyse true. O(n).
+bool KitapListesi::oduncteKitapVarMi() const {
+    for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
+        if (p->veri.oduncte) {
+            return true;
+        }
+    }
+    return false;
 }
 
 // Tum dugumleri siler. O(n).
@@ -150,7 +180,7 @@ void KitapListesi::ileriListele() const {
         std::cout << "Katalog bos. Listelenecek kitap yok.\n";
         return;
     }
-    tabloBasligiYaz();
+    tabloBasligiYaz(true);
     for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
         kitapSatiriYaz(p->veri);
     }
@@ -163,7 +193,7 @@ void KitapListesi::geriListele() const {
         std::cout << "Katalog bos. Listelenecek kitap yok.\n";
         return;
     }
-    tabloBasligiYaz();
+    tabloBasligiYaz(true);
     for (const KitapDugum* p = son; p != nullptr; p = p->prev) {
         kitapSatiriYaz(p->veri);
     }
@@ -209,7 +239,7 @@ void KitapListesi::esikUstuListele(int esik) const {
     for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
         if (p->veri.sayfa > esik) {
             if (bulunan == 0) {
-                tabloBasligiYaz();
+                tabloBasligiYaz(true);
             }
             kitapSatiriYaz(p->veri);
             bulunan++;
@@ -335,7 +365,7 @@ int dosyadanOkuGoster(const std::string& dosyaAdi) {
             continue;
         }
         if (!baslikYazildi) {
-            tabloBasligiYaz();
+            tabloBasligiYaz(false);
             baslikYazildi = true;
         }
         std::cout << std::left << std::setw(7) << alanlar[0] << std::setw(32) << alanlar[1]
@@ -354,6 +384,8 @@ static Kitap kitapBilgisiOku(int id) {
     k.ad = metinOku("Kitap adi: ");
     k.yazar = metinOku("Yazar adi: ");
     k.sayfa = tamSayiOku("Sayfa sayisi (1-100000): ", 1, 100000);
+    k.oduncte = false;  // Yeni kitap rafta baslar.
+    k.oduncSayisi = 0;
     return k;
 }
 
@@ -437,9 +469,12 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                 break;
             }
             const int id = tamSayiOku("Silinecek kitap ID: ", 1, 999999);
-            if (katalog.sil(id)) {
+            const SilmeSonucu sonuc = katalog.sil(id);
+            if (sonuc == SilmeSonucu::basarili) {
                 std::cout << "Kitap silindi: ID " << id << '\n';
                 gecmis.push("Kitap silindi: ID " + std::to_string(id));
+            } else if (sonuc == SilmeSonucu::oduncte) {
+                std::cout << "Kitap oduncte, silinemez: ID " << id << ". Once iade alin.\n";
             } else {
                 std::cout << "Bu ID ile kitap bulunamadi: " << id << '\n';
             }
@@ -481,6 +516,10 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             break;
         }
         case 13: {
+            if (katalog.oduncteKitapVarMi()) {
+                std::cout << "Oduncte kitap var. Katalog bosaltilamaz; once iadeleri alin.\n";
+                break;
+            }
             const int onay = tamSayiOku("Tum kitaplar silinsin mi? (1 = evet, 0 = hayir): ", 0, 1);
             if (onay == 1) {
                 const int silinen = katalog.temizle();
