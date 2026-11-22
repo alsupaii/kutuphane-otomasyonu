@@ -64,6 +64,8 @@ public:
     void esikUstuListele(int esik) const;
 
     bool dosyayaYaz(const std::string& dosyaAdi) const;
+    // Katalogu dosyadakiyle degistirir. Yuklenen kitap sayisi; dosya acilamazsa -1.
+    int dosyadanYukle(const std::string& dosyaAdi, int& atlanan);
     int diziyeAktar(Kitap dizi[], int kapasite) const;  // Modul 3 icin
 
 private:

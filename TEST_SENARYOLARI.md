@@ -1,6 +1,6 @@
 # Test Senaryolari
 
-Derleme: `g++ -std=c++11 -Wall -Wextra -pedantic` (GCC 16.2), uyari yok.
+Derleme: `g++ -std=c++11 -Wall -Wextra -pedantic` (GCC 16.2), uyari yok. Testler `-static` derlenmis exe ile kosuldu (bkz. not).
 Testler girdi dosyasi programa verilerek calistirildi. Ilk kosu: 22 Kasim 2026.
 Odunc akisi (35-44) eklendi. 1-34 ayni gun yeniden kosuldu. 101 artik oduncte basladigi icin
 6, 10, 11 ve 14 yeni duruma gore guncellendi; digerlerinin sonucu degismedi.
@@ -21,7 +21,7 @@ Ortanca-uc pivot ve bellek sayaci (52-56) 23 Kasim'da eklendi; tum test dosyalar
 | 10 | Katalog analizi | M1 → 7 (150'nin sayfasi 300) | 8 kitap, 3728 sayfa, ort. 466.00, en az Kucuk Prens (112), en cok Sefiller (1463) | Dogru (elle hesapla ayni) |
 | 11 | Sayfa esigi | M1 → 8, esik 400 | Ince Memed (436), Suc ve Ceza (687), Sefiller (1463) | Dogru |
 | 12 | Dairesel duyuru turu | M1 → 9, 10 | 4 duyuru, sonra ilk duyuruya donus, sonsuz dongu yok | Dogru |
-| 13 | Dosyaya yaz ve oku | M1 → 11, 12 | 8 kayit yazilir, 8 kayit okunup gosterilir | Dogru (`id\|ad\|yazar\|sayfa`) |
+| 13 | Dosyaya yaz ve oku | M1 → 11, 12 | 8 kayit yazilir, 8 kayit okunup gosterilir | Dogru (`id\|ad\|yazar\|sayfa\|oduncte\|oduncSayisi`) |
 | 14 | Bos katalog | M2 → 6 ile 101 ve 104'u iki kez iade al; M1 → 13, sonra 1, 2, 7, 8, 6, 5; M3 → 2 | Her islemde "Katalog bos" mesaji, cokme yok | Dogru |
 | 15 | Bos yigin | M2 → 2 (yigin bosken), 3 | "Yigin bos" mesaji | Dogru |
 | 16 | Stack LIFO | M2 → 1, 4 | Son eklenen en ustte | Dogru |
@@ -65,6 +65,18 @@ Ortanca-uc pivot ve bellek sayaci (52-56) 23 Kasim'da eklendi; tum test dosyalar
 | 54 | Ortanca-uc dogrulugu | Ayri test programi: n = 0..200; rastgele, sirali, ters, cok tekrarli | 804 dizinin hepsi sirali ve son eleman surumuyle ayni | Dogru (hata 0) |
 | 55 | Canli dugum sayaci | Her test dosyasinin sonunda cikis | "temizlikten once" > 0, "temizlikten sonra" 0, canli dizi 0 | Dogru (8 dosyada) |
 | 56 | Sayacin sizinti yakaladigini kanitlama | Kopyada pop'taki `delete` kaldirildi; M2 → 2 | "Canli dugum: 1 -> SIZINTI VAR" | Dogru (asil kod degismedi) |
+| 57 | Yaz ve yukle (gidis-donus) | Iadeler; M1 → 11, 6 (105), 4 (500), 14, 1 | Katalog dosyadaki 8 kitaba doner (105 geri, 500 yok); odunc sayilari korunur | Dogru |
+| 58 | Dosya yokken yukle | katalog.txt yok; M1 → 14, 1 | "Dosya acilamadi. Katalog degismedi"; 8 kitap kalir | Dogru |
+| 59 | Oduncte kitap varken yukle | Acilista M1 → 14 | "yukleme yapilamaz" | Dogru |
+| 60 | Yuklemeyi reddet | M1 → 14, 0 | Katalog degismez | Dogru |
+| 61 | Bozuk dosya | 10 satir: 6 alanli, eski 4 alanli, harfli ID, 7 alan, tekrar ID, sayfa 0, durum 2, bos satir, bos yazar, CRLF | Gosterim: 5 bozuk satir uyarisi. Yukleme: 3 kitap (101, 201, 206), 6 satir atlandi | Dogru |
+| 62 | Iki kez yukle | M1 → 14, 1, 14, 1 | Ikisinde de 8 kitap; tekrar olusmaz | Dogru |
+| 63 | Yukleme sonrasi undo | Test 57 sonrasi M2 → 9 | "Geri alma yigini bosaltildi (2 kayit)", sonra "islem yok" | Dogru |
 
 Not: 21 ve 22'de takas ve kaydirma sayisi esit (14). Bu dogru: ikisi de dizideki
 ters sirali cift sayisina esittir.
+
+Not (23 Kasim): `-static` olmadan derlenen exe Git Bash'te Git'in `libstdc++-6.dll` dosyasini yukledi.
+Bu surumle "dosya yokken yukle" testi yanlis sonuc verdi (dosya acilmis gibi davrandi). Statik exe ile
+dogru calisti. Tum test dosyalari statik exe ile yeniden kosuldu; diger sonuclar degismedi.
+`derle.bat` artik `-static` ile derler.

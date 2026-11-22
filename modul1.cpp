@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <iostream>
 #include <sstream>
+#include <utility>
 
 static const std::string katalogDosyasi = "katalog.txt";
 
@@ -13,12 +14,10 @@ static const std::string katalogDosyasi = "katalog.txt";
 // Yardimci yazdirma fonksiyonlari
 // ---------------------------------------------------------------
 
-// durumSutunu = false: dosyadan okunan kayitlar icin (dosyada durum alani yok).
-static void tabloBasligiYaz(bool durumSutunu) {
+static void tabloBasligiYaz() {
     std::cout << std::left << std::setw(7) << "ID" << std::setw(32) << "Kitap adi"
-              << std::setw(26) << "Yazar" << std::setw(7) << "Sayfa"
-              << (durumSutunu ? "Durum (odunc sayisi)" : "") << '\n';
-    std::cout << std::string(durumSutunu ? 92 : 72, '-') << '\n';
+              << std::setw(26) << "Yazar" << std::setw(7) << "Sayfa" << "Durum (odunc sayisi)\n";
+    std::cout << std::string(92, '-') << '\n';
 }
 
 static void kitapSatiriYaz(const Kitap& k) {
@@ -180,7 +179,7 @@ void KitapListesi::ileriListele() const {
         std::cout << "Katalog bos. Listelenecek kitap yok.\n";
         return;
     }
-    tabloBasligiYaz(true);
+    tabloBasligiYaz();
     for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
         kitapSatiriYaz(p->veri);
     }
@@ -193,7 +192,7 @@ void KitapListesi::geriListele() const {
         std::cout << "Katalog bos. Listelenecek kitap yok.\n";
         return;
     }
-    tabloBasligiYaz(true);
+    tabloBasligiYaz();
     for (const KitapDugum* p = son; p != nullptr; p = p->prev) {
         kitapSatiriYaz(p->veri);
     }
@@ -239,7 +238,7 @@ void KitapListesi::esikUstuListele(int esik) const {
     for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
         if (p->veri.sayfa > esik) {
             if (bulunan == 0) {
-                tabloBasligiYaz(true);
+                tabloBasligiYaz();
             }
             kitapSatiriYaz(p->veri);
             bulunan++;
@@ -252,7 +251,13 @@ void KitapListesi::esikUstuListele(int esik) const {
     }
 }
 
-// Her kitap bir satir: id|ad|yazar|sayfa
+// ---------------------------------------------------------------
+// Dosya bicimi: her kitap bir satir, alanlar '|' ile ayrilir.
+//   id|ad|yazar|sayfa|oduncte|oduncSayisi     ornek: 101|Suc ve Ceza|Dostoyevski|687|1|4
+// Eski 4 alanli satir (id|ad|yazar|sayfa) da okunur: kitap rafta, sayac 0.
+// ---------------------------------------------------------------
+
+// Bastan sona ileri yonde yazar. Yuklemede sona ekleme ayni sirayi geri kurar.
 bool KitapListesi::dosyayaYaz(const std::string& dosyaAdi) const {
     std::ofstream dosya(dosyaAdi);
     if (!dosya) {
@@ -260,9 +265,86 @@ bool KitapListesi::dosyayaYaz(const std::string& dosyaAdi) const {
     }
     for (const KitapDugum* p = bas; p != nullptr; p = p->next) {
         dosya << p->veri.id << '|' << p->veri.ad << '|' << p->veri.yazar << '|'
-              << p->veri.sayfa << '\n';
+              << p->veri.sayfa << '|' << (p->veri.oduncte ? 1 : 0) << '|'
+              << p->veri.oduncSayisi << '\n';
     }
     return static_cast<bool>(dosya);
+}
+
+// Metnin tamami enAz..enCok araliginda bir tam sayiysa true. "12abc" ve "" gecersiz.
+static bool tamSayiCoz(const std::string& metin, int enAz, int enCok, int& deger) {
+    std::istringstream akis(metin);
+    char fazla = '\0';
+    return (akis >> deger) && !(akis >> fazla) && deger >= enAz && deger <= enCok;
+}
+
+// Windows'ta yazilan dosyada satir sonunda '\r' kalabilir; onu atar.
+static void sondakiCrSil(std::string& satir) {
+    if (!satir.empty() && satir[satir.size() - 1] == '\r') {
+        satir.erase(satir.size() - 1);
+    }
+}
+
+// Bir dosya satirini Kitap'a cevirir. Alan sayisi ya da bir deger gecersizse false.
+static bool satirCoz(const std::string& satir, Kitap& k) {
+    std::string alan[6];
+    int alanSayisi = 0;
+    std::istringstream akis(satir);
+    std::string parca;
+    while (std::getline(akis, parca, '|')) {
+        if (alanSayisi == 6) {
+            return false;  // 6'dan fazla alan
+        }
+        alan[alanSayisi] = parca;
+        alanSayisi++;
+    }
+    if (alanSayisi != 4 && alanSayisi != 6) {
+        return false;
+    }
+    int oduncte = 0;
+    int sayac = 0;
+    if (!tamSayiCoz(alan[0], 1, 999999, k.id) || alan[1].empty() || alan[2].empty() ||
+        !tamSayiCoz(alan[3], 1, 100000, k.sayfa)) {
+        return false;
+    }
+    if (alanSayisi == 6 &&
+        (!tamSayiCoz(alan[4], 0, 1, oduncte) || !tamSayiCoz(alan[5], 0, 1000000, sayac))) {
+        return false;
+    }
+    k.ad = alan[1];
+    k.yazar = alan[2];
+    k.oduncte = (oduncte == 1);
+    k.oduncSayisi = sayac;
+    return true;
+}
+
+// Dosyadaki kitaplari ONCE bos bir gecici listeye okur, sonra katalogla yer degistirir.
+// Yer degistirme yalniz uc degeri takas eder (bas, son, adet): dugum kopyalanmaz, O(1).
+// Fonksiyon bitince gecici listenin yikicisi ESKI katalogun dugumlerini siler.
+// Dosya acilamazsa katalog hic degismez. Bozuk ya da tekrar eden ID'li satir atlanir.
+// Dondurur: yuklenen kitap sayisi, dosya acilamazsa -1. Sure: O(n^2), cunku sonaEkle ID'yi arar.
+int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
+    atlanan = 0;
+    std::ifstream dosya(dosyaAdi);
+    if (!dosya) {
+        return -1;
+    }
+    KitapListesi gecici;
+    std::string satir;
+    while (std::getline(dosya, satir)) {
+        sondakiCrSil(satir);
+        if (satir.empty()) {
+            continue;
+        }
+        Kitap k{0, "", "", 0, false, 0};
+        if (!satirCoz(satir, k) || gecici.sonaEkle(k) != EklemeSonucu::basarili) {
+            atlanan++;
+        }
+    }
+    std::swap(bas, gecici.bas);
+    std::swap(son, gecici.son);
+    std::swap(adet, gecici.adet);
+    return adet;
 }
 
 // Listeyi diziye kopyalar. Kopyalanan kayit sayisini dondurur. O(n).
@@ -339,6 +421,7 @@ int DuyuruListesi::temizle() {
 // Dosyadan okuma
 // ---------------------------------------------------------------
 
+// Dosyayi okur ve ekrana yazar; katalogu DEGISTIRMEZ. Okunan satir sayisini dondurur.
 int dosyadanOkuGoster(const std::string& dosyaAdi) {
     std::ifstream dosya(dosyaAdi);
     if (!dosya) {
@@ -348,28 +431,21 @@ int dosyadanOkuGoster(const std::string& dosyaAdi) {
     int kayitSayisi = 0;
     bool baslikYazildi = false;
     while (std::getline(dosya, satir)) {
+        sondakiCrSil(satir);
         if (satir.empty()) {
             continue;
         }
-        std::istringstream akis(satir);
-        std::string alanlar[4];
-        int alanSayisi = 0;
-        std::string alan;
-        while (alanSayisi < 4 && std::getline(akis, alan, '|')) {
-            alanlar[alanSayisi] = alan;
-            alanSayisi++;
-        }
         kayitSayisi++;
-        if (alanSayisi != 4) {
+        Kitap k{0, "", "", 0, false, 0};
+        if (!satirCoz(satir, k)) {
             std::cout << "  Bozuk satir atlandi: " << satir << '\n';
             continue;
         }
         if (!baslikYazildi) {
-            tabloBasligiYaz(false);
+            tabloBasligiYaz();
             baslikYazildi = true;
         }
-        std::cout << std::left << std::setw(7) << alanlar[0] << std::setw(32) << alanlar[1]
-                  << std::setw(26) << alanlar[2] << alanlar[3] << '\n';
+        kitapSatiriYaz(k);
     }
     return kayitSayisi;
 }
@@ -422,8 +498,9 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                   << " 11) Katalogu dosyaya yaz (" << katalogDosyasi << ")\n"
                   << " 12) Dosyadan oku ve goster\n"
                   << " 13) Katalogu bosalt (bos liste testi)\n"
+                  << " 14) Dosyadan kataloga yukle (" << katalogDosyasi << ")\n"
                   << "  0) Ana menuye don\n";
-        secim = tamSayiOku("Seciminiz: ", 0, 13);
+        secim = tamSayiOku("Seciminiz: ", 0, 14);
 
         switch (secim) {
         case 1:
@@ -527,6 +604,36 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                 std::cout << "Dosya bos.\n";
             } else {
                 std::cout << okunan << " kayit dosyadan okundu.\n";
+            }
+            break;
+        }
+        case 14: {
+            // Kural: bekleme kuyrugu oduncteki kitaplari bekler. Katalog degisirse kuyruk
+            // olmayan kitaplari bekleyebilir. Bu yuzden oduncte kitap varken yukleme yapilmaz.
+            if (katalog.oduncteKitapVarMi()) {
+                std::cout << "Oduncte kitap var. Dosyadan yukleme yapilamaz; once iadeleri alin.\n";
+                break;
+            }
+            const int onay = tamSayiOku("Mevcut katalog dosyadakiyle degissin mi? (1 = evet, 0 = hayir): ", 0, 1);
+            if (onay == 0) {
+                break;
+            }
+            int atlanan = 0;
+            const int yuklenen = katalog.dosyadanYukle(katalogDosyasi, atlanan);
+            if (yuklenen < 0) {
+                std::cout << "Dosya acilamadi. Katalog degismedi. Once 11 ile katalogu dosyaya yazin.\n";
+                break;
+            }
+            std::cout << yuklenen << " kitap dosyadan kataloga yuklendi.";
+            if (atlanan > 0) {
+                std::cout << " " << atlanan << " satir atlandi (bozuk ya da tekrar eden ID).";
+            }
+            std::cout << '\n';
+            gecmis.push("Katalog dosyadan yuklendi (" + std::to_string(yuklenen) + " kitap)");
+            // Eski katalogun komsu ID'leri gecersiz; eski geri alma kayitlari atilir.
+            const int atilan = geriAlma.temizle();
+            if (atilan > 0) {
+                std::cout << "Geri alma yigini bosaltildi (" << atilan << " kayit).\n";
             }
             break;
         }

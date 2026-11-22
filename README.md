@@ -8,7 +8,7 @@ Kitap kataloğunu, duyuru panosunu, işlem geçmişini, ödünç bekleme sıras�
 ## Kullanılan veri yapıları
 | Modül | Dosya | Yapı | Kullanım |
 |---|---|---|---|
-| 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` |
+| 1 | `modul1.h/.cpp` | Çift yönlü doğrusal bağlı liste, tek yönlü dairesel bağlı liste, dosya G/Ç | Kitap kataloğu, duyurular, `katalog.txt` (yazma, gösterme, kataloğa yükleme) |
 | 2 | `modul2.h/.cpp` | Bağlı liste tabanlı Stack (iki adet) ve Queue | İşlem geçmişi, geri alma (undo), ödünç verme, iade, ödünç bekleme sırası |
 | 3 | `modul3.h/.cpp` | Dinamik dizi + Bubble, Insertion, Quick Sort (iki pivot), Binary Search | Sayfa/ID sıralama, ID arama, pivot karşılaştırması |
 | 4 | `modul4.h/.cpp` | Komşuluk matrisli ağırlıklı graf, BFS, DFS, Dijkstra | Kampüs rotaları |
@@ -32,13 +32,20 @@ Kitap kataloğunu, duyuru panosunu, işlem geçmişini, ödünç bekleme sıras�
 g++ -std=c++11 -Wall -Wextra main.cpp ortak.cpp modul1.cpp modul2.cpp modul3.cpp modul4.cpp -o kutuphane
 ./kutuphane
 ```
-Windows'ta `derle.bat` dosyasına çift tıklamak da yeterli.
+Windows'ta `derle.bat` dosyasına çift tıklamak da yeterli. Bu betik `-static` ile derler: `kutuphane.exe` DLL istemez ve Gezgin'den de açılır.
+
+**Uyarı (Windows):** `-static` olmadan derlenen exe, PATH'te bulduğu ilk `libstdc++-6.dll` dosyasını yükler. Git Bash'te bu Git'in kendi sürümüdür. Sürüm uyuşmazsa program yanlış çalışabilir. Bu projede dosya yokken açılmış gibi davrandığı görüldü. Gezgin'den açılırsa da DLL bulunamaz.
 
 ## Menü özeti
 Ana menü → Modül 1–4 → her modülde alt menü → `0` ile ana menüye dönüş → ana menüde `0` ile çıkış.
 Çıkışta `new` ile açılan tüm düğümler `delete` edilir ve her yapı için silinen düğüm sayısı yazılır.
 
 **Bellek kanıtı:** Her düğüm türünün kurucusu `canliDugum` sayacını artırır, yıkıcısı azaltır. `new[]` dizileri `canliDizi` ile sayılır. Çıkışta iki sayaç da 0 olmalıdır; değilse program "SIZINTI VAR" yazar.
+
+## Dosya biçimi
+`katalog.txt`: her kitap bir satır, `id|ad|yazar|sayfa|oduncte|oduncSayisi` (örnek `101|Suc ve Ceza|Dostoyevski|687|1|4`). Eski 4 alanlı satırlar da okunur; bu kitaplar rafta ve sayaç 0 sayılır.
+- **Göster (M1 → 12):** dosyayı okur, kataloğa dokunmaz.
+- **Yükle (M1 → 14):** dosya önce geçici bir listeye okunur, sonra katalogla yer değiştirir. Yalnız `bas`, `son` ve `adet` takas edilir (O(1)); eski düğümleri geçici listenin yıkıcısı siler. Dosya açılamazsa katalog değişmez. Bozuk ya da tekrar eden ID'li satır atlanır. Ödünçte kitap varken yükleme yapılmaz. Yüklemeden sonra geri alma yığını boşalır.
 
 ## Quick Sort pivot seçimi
 Lomuto bölümleme pivotu aralığın son elemanından alır. Dizi zaten sıralıysa pivot hep en büyük eleman olur ve sıralama O(n²)'ye düşer. Ortanca-üç sürümü ilk, orta ve son elemanın ortancasını pivot yapar. Modül 3 → 6 ikisini aynı girdide karşılaştırır: 1000 sıralı ID'de 499 500'e karşı 9 451 karşılaştırma. Küçük ve karışık dizide ortanca-üç birkaç karşılaştırma fazla yapar.
@@ -50,13 +57,12 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-56 senaryo: `TEST_SENARYOLARI.md`.
+63 senaryo: `TEST_SENARYOLARI.md`.
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
-- Dosyadan okuma kayıtları ekranda gösterir, kataloğa geri yüklemez.
 - Metin alanlarında `|` karakteri kullanılamaz, çünkü dosyada ayıraç olarak kullanılıyor.
 - Kitabın hangi öğrencide olduğu tutulmaz, yalnız ödünçte olup olmadığı tutulur. Bu yüzden iadede kimin getirdiği sorulmaz.
-- Dosyaya ödünç durumu yazılmaz; dosyada yalnız `id|ad|yazar|sayfa` vardır.
+- Bekleme kuyruğu ve işlem geçmişi dosyaya yazılmaz; yalnız katalog kaydedilir.
 - Geri alma yalnız kitap ekleme ve silmeyi kapsar. Ödünç, iade ve kuyruk işlemleri geri alınmaz. Katalog boşaltılınca geri alma yığını da boşalır.
 - Konsol mesajları ASCII'dir (yönerge gereği Türkçe karakter yok).
