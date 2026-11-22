@@ -3,16 +3,29 @@
 
 // MODUL 2: Bagli liste tabanli yigin (Stack) ve kuyruk (Queue).
 
-#include <string>
+#include "modul1.h"  // Kitap: geri alma kaydi kitabin kopyasini tasir.
 
-class KitapListesi;   // Modul 1'de tanimli. Odunc akisi kitabin durumunu degistirir.
-class DuyuruListesi;  // Modul 1'de tanimli. Sirasi gelen ogrenci icin duyuru yazilir.
+#include <string>
 
 // ---------------- Yigin (LIFO: son giren ilk cikar) ----------------
 
-struct YiginDugum {
+// bilgi: yalniz metin (islem gecmisi). Digerleri geri alinabilir (geri alma yigini).
+enum class IslemTuru { bilgi, kitapEklendi, kitapSilindi };
+
+struct IslemKaydi {
     std::string aciklama;
+    IslemTuru tur;
+    Kitap kitap;         // Eklenen ya da silinen kitabin kopyasi
+    int sonrakiKomsuId;  // Silinen kitabin arkasindaki kitabin ID'si; -1 = sondaydi
+};
+
+struct YiginDugum {
+    IslemKaydi veri;
     YiginDugum* next;  // Bir alttaki kayit
+    YiginDugum(const IslemKaydi& v, YiginDugum* n) : veri(v), next(n) { canliDugum++; }
+    ~YiginDugum() { canliDugum--; }
+    YiginDugum(const YiginDugum&) = delete;
+    YiginDugum& operator=(const YiginDugum&) = delete;
 };
 
 class IslemYigini {
@@ -22,9 +35,10 @@ public:
     IslemYigini(const IslemYigini&) = delete;
     IslemYigini& operator=(const IslemYigini&) = delete;
 
-    void push(const std::string& aciklama);
-    bool pop(std::string& cikan);       // Bossa false
-    bool peek(std::string& ustteki) const;
+    void push(const IslemKaydi& kayit);
+    void push(const std::string& aciklama);  // Yalniz metinli bilgi kaydi
+    bool pop(IslemKaydi& cikan);             // Bossa false
+    bool peek(IslemKaydi& ustteki) const;
     void listele() const;
     bool bosMu() const;
     int boyut() const;
@@ -47,6 +61,10 @@ struct Ogrenci {
 struct KuyrukDugum {
     Ogrenci veri;
     KuyrukDugum* next;  // Arkadaki ogrenci
+    KuyrukDugum(const Ogrenci& v, KuyrukDugum* n) : veri(v), next(n) { canliDugum++; }
+    ~KuyrukDugum() { canliDugum--; }
+    KuyrukDugum(const KuyrukDugum&) = delete;
+    KuyrukDugum& operator=(const KuyrukDugum&) = delete;
 };
 
 class BeklemeKuyrugu {
@@ -73,7 +91,7 @@ private:
     int adet;
 };
 
-void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katalog,
-                DuyuruListesi& duyurular);
+void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyruk,
+                KitapListesi& katalog, DuyuruListesi& duyurular);
 
 #endif

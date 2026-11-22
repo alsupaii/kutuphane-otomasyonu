@@ -4,6 +4,8 @@
 // MODUL 1: Cift yonlu bagli liste (kitap katalogu),
 // tek yonlu dairesel bagli liste (duyurular), dosya islemleri.
 
+#include "ortak.h"  // canliDugum sayaci
+
 #include <string>
 
 class IslemYigini;  // Modul 2'de tanimli. Menu, yapilan islemleri bu yigina yazar.
@@ -19,10 +21,15 @@ struct Kitap {
 };
 
 // Cift yonlu bagli liste dugumu: hem onceki (prev) hem sonraki (next) dugumu bilir.
+// Kurucu sayaci artirir, yikici azaltir. "new KitapDugum{k, nullptr, nullptr}" bu kurucuyu cagirir.
 struct KitapDugum {
     Kitap veri;
     KitapDugum* prev;
     KitapDugum* next;
+    KitapDugum(const Kitap& k, KitapDugum* p, KitapDugum* n) : veri(k), prev(p), next(n) { canliDugum++; }
+    ~KitapDugum() { canliDugum--; }
+    KitapDugum(const KitapDugum&) = delete;  // Dugum kopyalanmaz; sayac sasmasin.
+    KitapDugum& operator=(const KitapDugum&) = delete;
 };
 
 enum class EklemeSonucu { basarili, idZatenVar, hedefYok };
@@ -71,6 +78,10 @@ private:
 struct DuyuruDugum {
     std::string metin;
     DuyuruDugum* next;
+    DuyuruDugum(const std::string& m, DuyuruDugum* n) : metin(m), next(n) { canliDugum++; }
+    ~DuyuruDugum() { canliDugum--; }
+    DuyuruDugum(const DuyuruDugum&) = delete;
+    DuyuruDugum& operator=(const DuyuruDugum&) = delete;
 };
 
 class DuyuruListesi {
@@ -95,6 +106,8 @@ private:
 // Okunan kayit sayisini, dosya acilamazsa -1 dondurur.
 int dosyadanOkuGoster(const std::string& dosyaAdi);
 
-void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis);
+// gecmis: tum islemlerin metin kaydi. geriAlma: yalniz geri alinabilir kitap ekleme/silme.
+void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis,
+                IslemYigini& geriAlma);
 
 #endif

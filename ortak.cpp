@@ -3,6 +3,9 @@
 #include <iostream>
 #include <sstream>
 
+int canliDugum = 0;
+int canliDizi = 0;
+
 // Bir satir okur. Windows'tan gelen sondaki '\r' karakterini atar.
 // Girdi bittiyse GirdiBitti firlatir.
 static std::string satirOku() {

@@ -79,20 +79,57 @@ static int bolumle(Kitap dizi[], int alt, int ust, SiralamaSayaci& s) {
     return i + 1;
 }
 
-static void quickSortYardimci(Kitap dizi[], int alt, int ust, SiralamaSayaci& s) {
+// Ortanca-uc: alt, orta ve ust elemanlarindan ID'si ortanca olani ust'e tasir.
+// Lomuto pivotu hep ust'ten alir; boylece bolumle() degismeden calisir.
+// Sirali dizide pivot artik en buyuk eleman olmaz, araligin ortasindan gelir.
+static void ortancayiSonaTasi(Kitap dizi[], int alt, int ust, SiralamaSayaci& s) {
+    const int orta = alt + (ust - alt) / 2;
+    // 1) Uc elemani kendi aralarinda sirala: dizi[alt] <= dizi[orta] <= dizi[ust].
+    s.karsilastirma++;
+    if (dizi[orta].id < dizi[alt].id) {
+        std::swap(dizi[orta], dizi[alt]);
+        s.degisim++;
+    }
+    s.karsilastirma++;
+    if (dizi[ust].id < dizi[alt].id) {
+        std::swap(dizi[ust], dizi[alt]);
+        s.degisim++;
+    }
+    s.karsilastirma++;
+    if (dizi[ust].id < dizi[orta].id) {
+        std::swap(dizi[ust], dizi[orta]);
+        s.degisim++;
+    }
+    // 2) Ortanca simdi orta'da. Pivot yerine (ust) tasi.
+    std::swap(dizi[orta], dizi[ust]);
+    s.degisim++;
+}
+
+static void quickSortYardimci(Kitap dizi[], int alt, int ust, SiralamaSayaci& s, bool ortancaUc) {
     if (alt >= ust) {
         return;  // 0 veya 1 elemanli aralik zaten siralidir.
     }
+    if (ortancaUc && ust - alt >= 2) {  // En az 3 eleman varsa ortanca secilebilir.
+        ortancayiSonaTasi(dizi, alt, ust, s);
+    }
     const int pivotYeri = bolumle(dizi, alt, ust, s);
-    quickSortYardimci(dizi, alt, pivotYeri - 1, s);  // Pivotun solu
-    quickSortYardimci(dizi, pivotYeri + 1, ust, s);  // Pivotun sagi
+    quickSortYardimci(dizi, alt, pivotYeri - 1, s, ortancaUc);  // Pivotun solu
+    quickSortYardimci(dizi, pivotYeri + 1, ust, s, ortancaUc);  // Pivotun sagi
 }
 
-// Quick Sort, ID'ye gore kucukten buyuge.
+// Quick Sort, ID'ye gore kucukten buyuge. Pivot: son eleman.
 // Ortalama O(n log n). En kotu O(n^2): dizi zaten siraliysa pivot hep en buyuk cikar.
 SiralamaSayaci quickSortId(Kitap dizi[], int n) {
     SiralamaSayaci s{0, 0};
-    quickSortYardimci(dizi, 0, n - 1, s);
+    quickSortYardimci(dizi, 0, n - 1, s, false);
+    return s;
+}
+
+// Ayni Quick Sort, pivot: ortanca-uc. En kotu durum hala O(n^2),
+// ama sirali ya da ters sirali girdi artik onu tetiklemez.
+SiralamaSayaci quickSortIdOrtancaUc(Kitap dizi[], int n) {
+    SiralamaSayaci s{0, 0};
+    quickSortYardimci(dizi, 0, n - 1, s, true);
     return s;
 }
 
@@ -137,6 +174,43 @@ static void sayacYaz(const SiralamaSayaci& s, const std::string& degisimAdi) {
               << degisimAdi << " sayisi: " << s.degisim << '\n';
 }
 
+// Ayni girdinin iki kopyasini iki pivot yontemiyle siralar ve sayaclari yan yana yazar.
+static void pivotYaris(const Kitap kaynak[], int n, const std::string& baslik) {
+    Kitap* a = new Kitap[n];
+    Kitap* b = new Kitap[n];
+    canliDizi += 2;
+    for (int i = 0; i < n; i++) {
+        a[i] = kaynak[i];
+        b[i] = kaynak[i];
+    }
+    const SiralamaSayaci sonEleman = quickSortId(a, n);
+    const SiralamaSayaci ortanca = quickSortIdOrtancaUc(b, n);
+    std::cout << baslik << " (n = " << n << ")\n"
+              << "  Pivot son eleman : " << std::setw(8) << sonEleman.karsilastirma
+              << " karsilastirma, " << sonEleman.degisim << " takas\n"
+              << "  Pivot ortanca-uc : " << std::setw(8) << ortanca.karsilastirma
+              << " karsilastirma, " << ortanca.degisim << " takas\n";
+    delete[] a;
+    delete[] b;
+    canliDizi -= 2;
+}
+
+// Katalogun karisik kopyasi ve 1000 elemanli SIRALI bir dizi uzerinde iki pivotu yaristirir.
+// Sirali dizi, Lomuto'nun en kotu durumudur: n(n-1)/2 = 499500 karsilastirma.
+static void pivotKarsilastir(const Kitap katalogKopyasi[], int n) {
+    pivotYaris(katalogKopyasi, n, "Katalog (karisik sira)");
+
+    const int buyukN = 1000;
+    Kitap* sirali = new Kitap[buyukN];
+    canliDizi++;
+    for (int i = 0; i < buyukN; i++) {
+        sirali[i] = Kitap{i + 1, "", "", 0, false, 0};  // ID'ler 1, 2, 3 ... artan
+    }
+    pivotYaris(sirali, buyukN, "Zaten sirali ID'ler");
+    delete[] sirali;
+    canliDizi--;
+}
+
 void modul3Menu(const KitapListesi& katalog, IslemYigini& gecmis) {
     int secim = -1;
     while (secim != 0) {
@@ -146,8 +220,9 @@ void modul3Menu(const KitapListesi& katalog, IslemYigini& gecmis) {
                   << "  3) Insertion Sort (sayfa sayisina gore)\n"
                   << "  4) Quick Sort (ID'ye gore)\n"
                   << "  5) Binary Search (ID ile, Quick Sort sonrasi)\n"
+                  << "  6) Quick Sort pivot karsilastirmasi (son eleman / ortanca-uc)\n"
                   << "  0) Ana menuye don\n";
-        secim = tamSayiOku("Seciminiz: ", 0, 5);
+        secim = tamSayiOku("Seciminiz: ", 0, 6);
         if (secim == 0) {
             break;
         }
@@ -165,6 +240,7 @@ void modul3Menu(const KitapListesi& katalog, IslemYigini& gecmis) {
 
         // Her islem katalogun TAZE kopyasiyla calisir; bagli liste degismez.
         Kitap* dizi = new Kitap[n];
+        canliDizi++;
         katalog.diziyeAktar(dizi, n);
 
         switch (secim) {
@@ -218,10 +294,15 @@ void modul3Menu(const KitapListesi& katalog, IslemYigini& gecmis) {
                         (indis >= 0 ? " bulundu" : " bulunamadi"));
             break;
         }
+        case 6:
+            pivotKarsilastir(dizi, n);
+            gecmis.push("Quick Sort pivot karsilastirmasi calisti");
+            break;
         default:
             break;
         }
 
         delete[] dizi;  // new[] ile acilan dizi delete[] ile silinir.
+        canliDizi--;
     }
 }

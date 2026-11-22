@@ -17,42 +17,46 @@ bool IslemYigini::bosMu() const { return ust == nullptr; }
 
 int IslemYigini::boyut() const { return adet; }
 
-void IslemYigini::push(const std::string& aciklama) {
-    YiginDugum* yeni = new YiginDugum{aciklama, ust};  // Yeni dugum eski ustu gosterir.
-    ust = yeni;                                         // Ust artik yeni dugum.
+void IslemYigini::push(const IslemKaydi& kayit) {
+    YiginDugum* yeni = new YiginDugum{kayit, ust};  // Yeni dugum eski ustu gosterir.
+    ust = yeni;                                      // Ust artik yeni dugum.
     adet++;
 }
 
-bool IslemYigini::pop(std::string& cikan) {
+void IslemYigini::push(const std::string& aciklama) {
+    push(IslemKaydi{aciklama, IslemTuru::bilgi, Kitap{0, "", "", 0, false, 0}, -1});
+}
+
+bool IslemYigini::pop(IslemKaydi& cikan) {
     if (ust == nullptr) {
         return false;  // Bos yigindan cikarma yapilamaz (underflow).
     }
     YiginDugum* silinecek = ust;
-    cikan = silinecek->aciklama;
-    ust = ust->next;
-    delete silinecek;
+    cikan = silinecek->veri;
+    ust = ust->next;   // Once ustu bir alta indir...
+    delete silinecek;  // ...sonra eski ustu sil. Ters sirada ust->next silinmis bellekten okunurdu.
     adet--;
     return true;
 }
 
-bool IslemYigini::peek(std::string& ustteki) const {
+bool IslemYigini::peek(IslemKaydi& ustteki) const {
     if (ust == nullptr) {
         return false;
     }
-    ustteki = ust->aciklama;
+    ustteki = ust->veri;
     return true;
 }
 
 // Ustten alta dogru yazar: en yeni islem en ustte. O(n).
 void IslemYigini::listele() const {
     if (ust == nullptr) {
-        std::cout << "Islem gecmisi (yigin) bos.\n";
+        std::cout << "Yigin bos.\n";
         return;
     }
-    std::cout << "Islem gecmisi (ustten alta, en yeni en ustte):\n";
+    std::cout << "Yigin (ustten alta, en yeni en ustte):\n";
     int sira = 1;
     for (const YiginDugum* p = ust; p != nullptr; p = p->next) {
-        std::cout << "  " << sira << ") " << p->aciklama << (sira == 1 ? "   <- ust" : "") << '\n';
+        std::cout << "  " << sira << ") " << p->veri.aciklama << (sira == 1 ? "   <- ust" : "") << '\n';
         sira++;
     }
 }
@@ -244,8 +248,44 @@ static void iadeAl(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& ka
     }
 }
 
-void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katalog,
-                DuyuruListesi& duyurular) {
+// Geri alma yiginin ustundeki katalog islemini tersine cevirir. LIFO: en son islem ilk geri alinir.
+// Once peek: ters islem basarisiz olursa kayit yiginda kalir. Basariliysa pop.
+// Ters islem geri alma yiginina yeni kayit YAZMAZ. Yazsaydi ikinci "geri al" ilkini iptal ederdi.
+static void geriAl(IslemYigini& geriAlma, IslemYigini& gecmis, KitapListesi& katalog) {
+    IslemKaydi kayit;
+    if (!geriAlma.peek(kayit)) {
+        std::cout << "Geri alinacak islem yok.\n";
+        return;
+    }
+    const Kitap& k = kayit.kitap;
+    if (kayit.tur == IslemTuru::kitapEklendi) {
+        const SilmeSonucu sonuc = katalog.sil(k.id);  // Eklemenin tersi: sil.
+        if (sonuc == SilmeSonucu::oduncte) {
+            std::cout << "Kitap oduncte, ekleme geri alinamaz: ID " << k.id << ". Once iade alin.\n";
+            return;
+        }
+        if (sonuc == SilmeSonucu::bulunamadi) {
+            std::cout << "Kitap katalogda yok, geri alinamadi: ID " << k.id << '\n';
+            return;
+        }
+    } else {
+        // Silmenin tersi: kitabi eski arka komsusunun onune koy. Komsu yoksa kitap sondaydi.
+        // Komsu sonradan silindiyse? Onun silinmesi yiginda daha ustte; LIFO ile once o geri gelir.
+        const EklemeSonucu sonuc = (kayit.sonrakiKomsuId == -1)
+                                       ? katalog.sonaEkle(k)
+                                       : katalog.oncesineEkle(kayit.sonrakiKomsuId, k);
+        if (sonuc != EklemeSonucu::basarili) {
+            std::cout << "Kitap eski yerine konamadi, geri alinamadi: ID " << k.id << '\n';
+            return;
+        }
+    }
+    geriAlma.pop(kayit);
+    std::cout << "Geri alindi: " << kayit.aciklama << '\n';
+    gecmis.push("Geri alindi: " + kayit.aciklama);
+}
+
+void modul2Menu(IslemYigini& gecmis, IslemYigini& geriAlma, BeklemeKuyrugu& kuyruk,
+                KitapListesi& katalog, DuyuruListesi& duyurular) {
     int secim = -1;
     while (secim != 0) {
         std::cout << "\n=== MODUL 2: ISLEM GECMISI (STACK) VE BEKLEME SIRASI (QUEUE) ===\n"
@@ -257,8 +297,10 @@ void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katal
                   << "  6) Kitap iade al (bekleyen varsa siradakine ver)\n"
                   << "  7) Dequeue: en ondeki ogrenciyi siradan cikar (talep iptali)\n"
                   << "  8) Kuyrugu listele (FIFO)\n"
+                  << "  9) Geri al: son kitap ekleme/silme islemini geri al (undo)\n"
+                  << " 10) Geri alma yiginini listele\n"
                   << "  0) Ana menuye don\n";
-        secim = tamSayiOku("Seciminiz: ", 0, 8);
+        secim = tamSayiOku("Seciminiz: ", 0, 10);
 
         switch (secim) {
         case 1:
@@ -266,18 +308,18 @@ void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katal
             std::cout << "Kayit yigina eklendi. Yigin boyutu: " << gecmis.boyut() << '\n';
             break;
         case 2: {
-            std::string cikan;
+            IslemKaydi cikan;
             if (gecmis.pop(cikan)) {
-                std::cout << "Cikarilan kayit: " << cikan << '\n';
+                std::cout << "Cikarilan kayit: " << cikan.aciklama << '\n';
             } else {
                 std::cout << "Yigin bos. Pop yapilamaz.\n";
             }
             break;
         }
         case 3: {
-            std::string ustteki;
+            IslemKaydi ustteki;
             if (gecmis.peek(ustteki)) {
-                std::cout << "Ustteki kayit: " << ustteki << '\n';
+                std::cout << "Ustteki kayit: " << ustteki.aciklama << '\n';
             } else {
                 std::cout << "Yigin bos. Ustte kayit yok.\n";
             }
@@ -285,6 +327,12 @@ void modul2Menu(IslemYigini& gecmis, BeklemeKuyrugu& kuyruk, KitapListesi& katal
         }
         case 4:
             gecmis.listele();
+            break;
+        case 9:
+            geriAl(geriAlma, gecmis, katalog);
+            break;
+        case 10:
+            geriAlma.listele();
             break;
         case 5:
             oduncTalebi(gecmis, kuyruk, katalog);

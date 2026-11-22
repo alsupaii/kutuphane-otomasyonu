@@ -3,6 +3,12 @@
 
 #include <string>
 
+// Bellek sayaclari. Sizinti kaniti: program kapanirken ikisi de 0 olmali.
+// canliDugum: new ile acilip henuz delete edilmemis dugum. Dugum kurucusu artirir, yikicisi azaltir.
+// canliDizi : new[] ile acilip henuz delete[] edilmemis dizi.
+extern int canliDugum;
+extern int canliDizi;
+
 // Girdi akisi bittiginde (Ctrl+Z veya dosya sonu) firlatilir.
 // main() bunu yakalar. Boylece yikicilar calisir ve bellek temizlenir.
 struct GirdiBitti {};

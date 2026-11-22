@@ -36,18 +36,20 @@ static void ornekVerileriYukle(KitapListesi& katalog, DuyuruListesi& duyurular,
 }
 
 static void bellekTemizle(KitapListesi& katalog, DuyuruListesi& duyurular,
-                          BeklemeKuyrugu& kuyruk, IslemYigini& gecmis) {
+                          BeklemeKuyrugu& kuyruk, IslemYigini& gecmis, IslemYigini& geriAlma) {
     std::cout << "\nBellek temizleniyor (delete):\n"
               << "  Kitap dugumu   : " << katalog.temizle() << '\n'
               << "  Duyuru dugumu  : " << duyurular.temizle() << '\n'
               << "  Kuyruk dugumu  : " << kuyruk.temizle() << '\n'
-              << "  Yigin dugumu   : " << gecmis.temizle() << '\n';
+              << "  Gecmis dugumu  : " << gecmis.temizle() << '\n'
+              << "  Geri alma dug. : " << geriAlma.temizle() << '\n';
 }
 
 int main() {
     KitapListesi katalog;
     DuyuruListesi duyurular;
-    IslemYigini gecmis;
+    IslemYigini gecmis;    // Tum islemlerin metin kaydi
+    IslemYigini geriAlma;  // Yalniz geri alinabilir kitap ekleme/silme kayitlari
     BeklemeKuyrugu kuyruk;
     const KampusGrafi kampus;
 
@@ -67,10 +69,10 @@ int main() {
             secim = tamSayiOku("Seciminiz: ", 0, 4);
             switch (secim) {
             case 1:
-                modul1Menu(katalog, duyurular, gecmis);
+                modul1Menu(katalog, duyurular, gecmis, geriAlma);
                 break;
             case 2:
-                modul2Menu(gecmis, kuyruk, katalog, duyurular);
+                modul2Menu(gecmis, geriAlma, kuyruk, katalog, duyurular);
                 break;
             case 3:
                 modul3Menu(katalog, gecmis);
@@ -86,7 +88,12 @@ int main() {
         std::cout << "\nGirdi sona erdi.\n";
     }
 
-    bellekTemizle(katalog, duyurular, kuyruk, gecmis);
+    std::cout << "\nCanli dugum (temizlikten once): " << canliDugum << '\n';
+    bellekTemizle(katalog, duyurular, kuyruk, gecmis, geriAlma);
+    // Sizinti kontrolu: her new'in bir delete'i olduysa iki sayac da 0'dir.
+    std::cout << "Canli dugum (temizlikten sonra): " << canliDugum
+              << ", canli dizi: " << canliDizi
+              << ((canliDugum == 0 && canliDizi == 0) ? "  -> sizinti yok\n" : "  -> SIZINTI VAR\n");
     std::cout << "Program kapandi.\n";
     return 0;
 }

@@ -15,7 +15,8 @@ struct SiralamaSayaci {
 
 SiralamaSayaci bubbleSortSayfa(Kitap dizi[], int n);
 SiralamaSayaci insertionSortSayfa(Kitap dizi[], int n);
-SiralamaSayaci quickSortId(Kitap dizi[], int n);
+SiralamaSayaci quickSortId(Kitap dizi[], int n);           // Pivot: son eleman
+SiralamaSayaci quickSortIdOrtancaUc(Kitap dizi[], int n);  // Pivot: ortanca-uc
 
 // ID'ye gore SIRALI dizide arar. Bulursa indeksi, bulamazsa -1 dondurur.
 // adimSayisi: kac kez ortadaki elemana bakildigi.

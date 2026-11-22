@@ -389,11 +389,14 @@ static Kitap kitapBilgisiOku(int id) {
     return k;
 }
 
+// Basarili eklemede iki yigina yazar: gecmis (metin) ve geriAlma (tersine cevirme verisi).
 static void eklemeSonucuYaz(EklemeSonucu sonuc, const Kitap& k, const std::string& yer,
-                            IslemYigini& gecmis) {
+                            IslemYigini& gecmis, IslemYigini& geriAlma) {
     if (sonuc == EklemeSonucu::basarili) {
+        const std::string aciklama = "Kitap eklendi (" + yer + "): ID " + std::to_string(k.id);
         std::cout << "Kitap eklendi (" << yer << "): " << k.ad << '\n';
-        gecmis.push("Kitap eklendi (" + yer + "): ID " + std::to_string(k.id));
+        gecmis.push(aciklama);
+        geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapEklendi, k, -1});
     } else if (sonuc == EklemeSonucu::idZatenVar) {
         std::cout << "Bu ID zaten kayitli: " << k.id << '\n';
     } else {
@@ -401,7 +404,8 @@ static void eklemeSonucuYaz(EklemeSonucu sonuc, const Kitap& k, const std::strin
     }
 }
 
-void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis) {
+void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis,
+                IslemYigini& geriAlma) {
     int secim = -1;
     while (secim != 0) {
         std::cout << "\n=== MODUL 1: KATALOG VE DUYURULAR ===\n"
@@ -437,9 +441,9 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             const Kitap k = kitapBilgisiOku(id);
             if (secim == 3) {
-                eklemeSonucuYaz(katalog.basaEkle(k), k, "basa", gecmis);
+                eklemeSonucuYaz(katalog.basaEkle(k), k, "basa", gecmis, geriAlma);
             } else {
-                eklemeSonucuYaz(katalog.sonaEkle(k), k, "sona", gecmis);
+                eklemeSonucuYaz(katalog.sonaEkle(k), k, "sona", gecmis, geriAlma);
             }
             break;
         }
@@ -460,7 +464,7 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             const Kitap k = kitapBilgisiOku(id);
             eklemeSonucuYaz(katalog.oncesineEkle(hedefId, k), k,
-                            "ID " + std::to_string(hedefId) + " onune", gecmis);
+                            "ID " + std::to_string(hedefId) + " onune", gecmis, geriAlma);
             break;
         }
         case 6: {
@@ -469,10 +473,21 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                 break;
             }
             const int id = tamSayiOku("Silinecek kitap ID: ", 1, 999999);
-            const SilmeSonucu sonuc = katalog.sil(id);
+            // Geri alma icin silmeden ONCE kitabin kopyasi ve arka komsusunun ID'si saklanir.
+            // Silmeden sonra dugum yok; bu bilgiye artik ulasilamaz.
+            const KitapDugum* d = katalog.bul(id);
+            Kitap kopya{0, "", "", 0, false, 0};
+            int sonrakiId = -1;
+            if (d != nullptr) {
+                kopya = d->veri;
+                sonrakiId = (d->next != nullptr) ? d->next->veri.id : -1;
+            }
+            const SilmeSonucu sonuc = katalog.sil(id);  // d bu satirdan sonra kullanilmaz.
             if (sonuc == SilmeSonucu::basarili) {
+                const std::string aciklama = "Kitap silindi: ID " + std::to_string(id);
                 std::cout << "Kitap silindi: ID " << id << '\n';
-                gecmis.push("Kitap silindi: ID " + std::to_string(id));
+                gecmis.push(aciklama);
+                geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapSilindi, kopya, sonrakiId});
             } else if (sonuc == SilmeSonucu::oduncte) {
                 std::cout << "Kitap oduncte, silinemez: ID " << id << ". Once iade alin.\n";
             } else {
@@ -525,6 +540,11 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                 const int silinen = katalog.temizle();
                 std::cout << silinen << " kitap dugumu silindi. Katalog bos.\n";
                 gecmis.push("Katalog bosaltildi (" + std::to_string(silinen) + " kitap)");
+                // Eski kayitlarin komsu ID'leri artik yok; bu kayitlar geri alinamaz.
+                const int atilan = geriAlma.temizle();
+                if (atilan > 0) {
+                    std::cout << "Geri alma yigini da bosaltildi (" << atilan << " kayit).\n";
+                }
             }
             break;
         }
