@@ -17,6 +17,7 @@ struct IslemKaydi {
     IslemTuru tur;
     Kitap kitap;         // Eklenen ya da silinen kitabin kopyasi
     int sonrakiKomsuId;  // Silinen kitabin arkasindaki kitabin ID'si; -1 = sondaydi
+    int katalogSurumu;   // Kayit yazildigi andaki katalog surumu (KitapListesi::surum)
 };
 
 struct YiginDugum {

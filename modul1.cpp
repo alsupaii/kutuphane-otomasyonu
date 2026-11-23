@@ -137,7 +137,7 @@ void IdIndeksi::dagilimYazdir() const {
 // KitapListesi: cift yonlu dogrusal bagli liste + hash indeksi
 // ---------------------------------------------------------------
 
-KitapListesi::KitapListesi() : bas(nullptr), son(nullptr), adet(0) {}
+KitapListesi::KitapListesi() : bas(nullptr), son(nullptr), adet(0), surumNo(0) {}
 
 KitapListesi::~KitapListesi() { temizle(); }
 
@@ -170,6 +170,8 @@ int KitapListesi::hashAramaAdimi(int id, bool& bulundu) const {
 }
 
 void KitapListesi::indeksDagilimiYazdir() const { indeks.dagilimYazdir(); }
+
+int KitapListesi::surum() const { return surumNo; }
 
 bool KitapListesi::bosMu() const { return bas == nullptr; }
 
@@ -301,6 +303,7 @@ int KitapListesi::temizle() {
     son = nullptr;
     adet = 0;
     indeks.temizle();  // Indeks kayitlari silinmis dugumleri gostermesin.
+    surumNo++;         // Eski geri alma kayitlari artik uygulanamaz.
     return silinen;
 }
 
@@ -456,6 +459,11 @@ static bool satirCoz(const std::string& satir, Kitap& k) {
 // Dondurur: yuklenen kitap sayisi, dosya acilamazsa -1. Sure: ortalama O(n), ID kontrolu indeksten.
 int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
     atlanan = 0;
+    // Kural burada, menude degil: bekleme kuyrugu oduncteki kitaplari bekler.
+    // Katalog degisirse kuyruk olmayan kitaplari bekleyebilirdi. Hangi menu cagirirsa cagirsin engellenir.
+    if (oduncteKitapVarMi()) {
+        return -2;
+    }
     std::ifstream dosya(dosyaAdi);
     if (!dosya) {
         return -1;
@@ -476,6 +484,7 @@ int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
     std::swap(son, gecici.son);
     std::swap(adet, gecici.adet);
     indeks.takas(gecici.indeks);  // Indeks de yer degistirir; eskisini gecici siler.
+    surumNo++;                    // Katalog bastan degisti.
     return adet;
 }
 
@@ -599,12 +608,12 @@ static Kitap kitapBilgisiOku(int id) {
 
 // Basarili eklemede iki yigina yazar: gecmis (metin) ve geriAlma (tersine cevirme verisi).
 static void eklemeSonucuYaz(EklemeSonucu sonuc, const Kitap& k, const std::string& yer,
-                            IslemYigini& gecmis, IslemYigini& geriAlma) {
+                            IslemYigini& gecmis, IslemYigini& geriAlma, int katalogSurumu) {
     if (sonuc == EklemeSonucu::basarili) {
         const std::string aciklama = "Kitap eklendi (" + yer + "): ID " + std::to_string(k.id);
         std::cout << "Kitap eklendi (" << yer << "): " << k.ad << '\n';
         gecmis.push(aciklama);
-        geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapEklendi, k, -1});
+        geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapEklendi, k, -1, katalogSurumu});
     } else if (sonuc == EklemeSonucu::idZatenVar) {
         std::cout << "Bu ID zaten kayitli: " << k.id << '\n';
     } else {
@@ -697,9 +706,9 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             const Kitap k = kitapBilgisiOku(id);
             if (secim == 3) {
-                eklemeSonucuYaz(katalog.basaEkle(k), k, "basa", gecmis, geriAlma);
+                eklemeSonucuYaz(katalog.basaEkle(k), k, "basa", gecmis, geriAlma, katalog.surum());
             } else {
-                eklemeSonucuYaz(katalog.sonaEkle(k), k, "sona", gecmis, geriAlma);
+                eklemeSonucuYaz(katalog.sonaEkle(k), k, "sona", gecmis, geriAlma, katalog.surum());
             }
             break;
         }
@@ -720,7 +729,8 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             const Kitap k = kitapBilgisiOku(id);
             eklemeSonucuYaz(katalog.oncesineEkle(hedefId, k), k,
-                            "ID " + std::to_string(hedefId) + " onune", gecmis, geriAlma);
+                            "ID " + std::to_string(hedefId) + " onune", gecmis, geriAlma,
+                            katalog.surum());
             break;
         }
         case 6: {
@@ -743,7 +753,7 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
                 const std::string aciklama = "Kitap silindi: ID " + std::to_string(id);
                 std::cout << "Kitap silindi: ID " << id << '\n';
                 gecmis.push(aciklama);
-                geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapSilindi, kopya, sonrakiId});
+                geriAlma.push(IslemKaydi{aciklama, IslemTuru::kitapSilindi, kopya, sonrakiId, katalog.surum()});
             } else if (sonuc == SilmeSonucu::oduncte) {
                 std::cout << "Kitap oduncte, silinemez: ID " << id << ". Once iade alin.\n";
             } else {
@@ -799,6 +809,10 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             int atlanan = 0;
             const int yuklenen = katalog.dosyadanYukle(katalogDosyasi, atlanan);
+            if (yuklenen == -2) {
+                std::cout << "Oduncte kitap var. Dosyadan yukleme yapilamaz; once iadeleri alin.\n";
+                break;
+            }
             if (yuklenen < 0) {
                 std::cout << "Dosya acilamadi. Katalog degismedi. Once 11 ile katalogu dosyaya yazin.\n";
                 break;

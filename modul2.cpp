@@ -24,7 +24,7 @@ void IslemYigini::push(const IslemKaydi& kayit) {
 }
 
 void IslemYigini::push(const std::string& aciklama) {
-    push(IslemKaydi{aciklama, IslemTuru::bilgi, Kitap{0, "", "", 0, false, 0}, -1});
+    push(IslemKaydi{aciklama, IslemTuru::bilgi, Kitap{0, "", "", 0, false, 0}, -1, 0});
 }
 
 bool IslemYigini::pop(IslemKaydi& cikan) {
@@ -300,6 +300,13 @@ static void geriAl(IslemYigini& geriAlma, IslemYigini& gecmis, KitapListesi& kat
     IslemKaydi kayit;
     if (!geriAlma.peek(kayit)) {
         std::cout << "Geri alinacak islem yok.\n";
+        return;
+    }
+    // Kayit baska bir kataloga ait (katalog bosaltildi ya da dosyadan yuklendi):
+    // eski komsu ID'leri gecersiz. Uygulanmaz, atilir. Menu yigini temizlemeyi unutsa bile.
+    if (kayit.katalogSurumu != katalog.surum()) {
+        geriAlma.pop(kayit);
+        std::cout << "Bu kayit eski kataloga ait, uygulanmadi ve atildi: " << kayit.aciklama << '\n';
         return;
     }
     const Kitap& k = kayit.kitap;

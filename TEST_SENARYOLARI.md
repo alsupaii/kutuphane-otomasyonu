@@ -11,8 +11,8 @@ Ortanca-uc pivot ve bellek sayaci (52-56) 23 Kasim'da eklendi; tum test dosyalar
 
 `testler\kos.bat` dosyasina cift tikla. Betik programi derler, 12 senaryo girdisini (`testler/NN_*.txt`)
 programa verir ve her ciktiyi `testler/beklenen/` icindeki onayli ciktiyla satir satir karsilastirir.
-Ayrica program duzgun kapandi mi ve "sizinti yok" yazdi mi diye bakar. Sonra iki birim testini calistirir:
-`siralama_testi.cpp` (ortanca-uc Quick Sort, 804 dizi) ve `tutarlilik_testi.cpp` (liste-hash, 20000 islem).
+Ayrica program duzgun kapandi mi ve "sizinti yok" yazdi mi diye bakar. Sonra uc birim testini calistirir:
+`siralama_testi.cpp` (ortanca-uc Quick Sort, 804 dizi), `tutarlilik_testi.cpp` (liste-hash, 20000 islem) ve `koruma_testi.cpp` (73-75).
 Kod degisince onayli ciktiyi bilerek yenilemek icin: `testler\kos.bat yenile`.
 
 Betigin farki yakaladigi denendi: onayli ciktida 3728 sayisi 3729 yapilinca `[HATA ] 05_analiz` verdi.
@@ -92,6 +92,10 @@ Betigin farki yakaladigi denendi: onayli ciktida 3728 sayisi 3729 yapilinca `[HA
 | 69 | Kova dagilimi | M1 → 16 | 8 kayit, 8 kova dolu, en uzun zincir 1, alfa 0.26 | Dogru |
 | 70 | 1000 kitaplik deneme | M1 → 16 | Dogrusal ort. 500.5 / en kotu 1000; hash ort. 16.6 / en kotu 33 | Dogru |
 | 71 | Liste-hash tutarliligi | Ayri test programi: 20000 rastgele ekle/sil/onune ekle/durum/bosalt; her adimda 150 ID iki yolla aranir | 0 uyusmazlik, boyut tutarli, sonda canli dugum 0 | Dogru |
+| 72 | Eski geri alma kaydi (surum korumasi) | Kopyada menu temizligi kaldirildi; iadeler, M1 → 6 (108), 13, 4 (300); M2 → 9, 9 | 300 eklemesi geri alinir; 108 silme kaydi "eski kataloga ait, uygulanmadi" | Dogru (asil kod degismedi) |
+| 73 | Negatif ID hash kovasi | koruma_testi.cpp: ID -5 ve -36 | Dizi disina tasmaz, ikisi de bulunur | Dogru |
+| 74 | Oduncte varken dosyadan yukleme (sinif icinde) | koruma_testi.cpp | dosyadanYukle -2 dondurur, katalog degismez | Dogru |
+| 75 | Gecersiz graf birim indisi | koruma_testi.cpp: dijkstra(0,6), dijkstra(-1,0), bfs(6), dfs(-1), birimAdi(6) | -1 / sessiz donus / "(gecersiz birim)"; cokme yok | Dogru |
 
 Not: 21 ve 22'de takas ve kaydirma sayisi esit (14). Bu dogru: ikisi de dizideki
 ters sirali cift sayisina esittir.

@@ -61,6 +61,10 @@ g++ -std=c++11 -Wall -Wextra -static -I.. tutarlilik_testi.cpp ..\ortak.cpp ..\m
 if errorlevel 1 goto derlemeHatasi
 .\tutarlilik_testi.exe
 if errorlevel 1 set HATA=1
+g++ -std=c++11 -Wall -Wextra -static -I.. koruma_testi.cpp ..\ortak.cpp ..\modul1.cpp ..\modul2.cpp ..\modul4.cpp -o koruma_testi.exe
+if errorlevel 1 goto derlemeHatasi
+.\koruma_testi.exe
+if errorlevel 1 set HATA=1
 
 echo.
 if "%HATA%"=="0" (echo SONUC: tum testler gecti.) else (echo SONUC: HATA VAR, yukaridaki satirlara bakin.)

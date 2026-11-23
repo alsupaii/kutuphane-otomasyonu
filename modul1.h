@@ -67,7 +67,9 @@ public:
 private:
     IndeksDugum* kova[kovaSayisi];
     int adet;
-    static int kovaNo(int id) { return id % kovaSayisi; }  // ID her zaman >= 1
+    // Sonuc her zaman 0..kovaSayisi-1. Negatif ID'de de dizi disina tasmaz
+    // (C++'ta -5 % 31 = -5 olur; + kovaSayisi ile pozitife cekilir).
+    static int kovaNo(int id) { return ((id % kovaSayisi) + kovaSayisi) % kovaSayisi; }
 };
 
 enum class EklemeSonucu { basarili, idZatenVar, hedefYok };
@@ -99,6 +101,9 @@ public:
     int dogrusalAramaAdimi(int id, bool& bulundu) const;  // Bastan sona, O(n)
     int hashAramaAdimi(int id, bool& bulundu) const;      // Kova zinciri, O(1 + alfa)
     void indeksDagilimiYazdir() const;
+    // Katalog bastan degisince (temizle, dosyadan yukleme) 1 artar. Geri alma kaydi bu
+    // numarayi tasir; numara tutmazsa kayit uygulanmaz (eski komsu ID'leri gecersizdir).
+    int surum() const;
     bool bosMu() const;
     int boyut() const;
 
@@ -108,7 +113,8 @@ public:
     void esikUstuListele(int esik) const;
 
     bool dosyayaYaz(const std::string& dosyaAdi) const;
-    // Katalogu dosyadakiyle degistirir. Yuklenen kitap sayisi; dosya acilamazsa -1.
+    // Katalogu dosyadakiyle degistirir. Yuklenen kitap sayisi; dosya acilamazsa -1;
+    // oduncte kitap varsa -2 (yukleme yapilmaz, katalog degismez).
     int dosyadanYukle(const std::string& dosyaAdi, int& atlanan);
     int diziyeAktar(Kitap dizi[], int kapasite) const;  // Modul 3 icin
 
@@ -116,6 +122,7 @@ private:
     KitapDugum* bas;
     KitapDugum* son;
     int adet;
+    int surumNo;
     IdIndeksi indeks;
 
     KitapDugum* dugumBul(int id) const;  // Artik indeksten bulur

@@ -8,7 +8,14 @@
 
 static const int sonsuz = std::numeric_limits<int>::max();
 
+// Disaridan gelen birim indisi 0..birimSayisi-1 araliginda mi? Menu 1..6 okur ve 1 cikarir;
+// cikarmayi unutan bir cagri dizinin disina yazmasin diye her giris noktasi bunu sorar.
+static bool gecerliBirim(int indis) { return indis >= 0 && indis < birimSayisi; }
+
 std::string KampusGrafi::birimAdi(int indis) {
+    if (!gecerliBirim(indis)) {
+        return "(gecersiz birim)";
+    }
     static const char* const adlar[birimSayisi] = {
         "Merkez Kutuphane",       "MYO Bilgisayar Lab.", "Muhendislik Binasi",
         "Ogrenci Isleri",         "Yemekhane ve Sosyal Alan", "Konferans Salonu"};
@@ -75,6 +82,9 @@ void KampusGrafi::matrisYazdir() const {
 // Kuyruk kullanir. Her dugum kuyruga en fazla bir kez girer, bu yuzden
 // birimSayisi boyutlu dizi yeter. Matriste O(V^2).
 void KampusGrafi::bfs(int baslangic) const {
+    if (!gecerliBirim(baslangic)) {
+        return;
+    }
     bool ziyaretEdildi[birimSayisi] = {false};
     int kuyruk[birimSayisi];
     int on = 0;
@@ -114,6 +124,9 @@ void KampusGrafi::dfsYardimci(int dugum, bool ziyaretEdildi[], bool& ilk) const 
 }
 
 void KampusGrafi::dfs(int baslangic) const {
+    if (!gecerliBirim(baslangic)) {
+        return;
+    }
     bool ziyaretEdildi[birimSayisi] = {false};
     bool ilk = true;
     std::cout << "DFS sirasi: ";
@@ -125,6 +138,9 @@ void KampusGrafi::dfs(int baslangic) const {
 // Her turda kesinlesmemis en yakin dugumu secer ve komsularini gunceller (gevsetme).
 // Dizi ile secim yapildigi icin O(V^2). Negatif agirlik olmamali.
 int KampusGrafi::dijkstra(int baslangic, int hedef) const {
+    if (!gecerliBirim(baslangic) || !gecerliBirim(hedef)) {
+        return -1;
+    }
     int mesafe[birimSayisi];
     int onceki[birimSayisi];       // Rotayi geri kurmak icin: hangi dugumden gelindi
     bool kesin[birimSayisi];       // En kisa mesafesi kesinlesti mi

@@ -71,13 +71,14 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-71 senaryo: `TEST_SENARYOLARI.md`. Hepsini yeniden kosmak icin `testler\kos.bat` (12 girdi dosyasi + 2 birim testi, ciktilar onayli ciktiyla karsilastirilir).
+75 senaryo: `TEST_SENARYOLARI.md`. Hepsini yeniden kosmak icin `testler\kos.bat` (12 girdi dosyasi + 3 birim testi, ciktilar onayli ciktiyla karsilastirilir).
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
 - Metin alanlarında `|` karakteri kullanılamaz, çünkü dosyada ayıraç olarak kullanılıyor.
 - Kitabın hangi öğrencide olduğu tutulmaz, yalnız ödünçte olup olmadığı tutulur. Bu yüzden iadede kimin getirdiği sorulmaz.
 - Bekleme kuyruğu ve işlem geçmişi dosyaya yazılmaz; yalnız katalog kaydedilir.
+- **Korumalar (poka-yoke):** geri alma kaydı katalog sürümünü taşır; katalog boşaltılır ya da dosyadan yüklenirse eski kayıt uygulanmaz. Ödünçte kitap varken yükleme `KitapListesi` içinde engellenir. Hash kovası negatif ID'de de dizi içinde kalır. Graf fonksiyonları geçersiz birim indisini reddeder.
 - Hash tablosunun kova sayısı sabittir (31); büyümez. Kitap sayısı çok artarsa zincirler uzar (1000 kitapta ortalama 16,6 adım).
 - Geri alma yalnız kitap ekleme ve silmeyi kapsar. Ödünç, iade ve kuyruk işlemleri geri alınmaz. Katalog boşaltılınca geri alma yığını da boşalır.
 - Konsol mesajları ASCII'dir (yönerge gereği Türkçe karakter yok).
