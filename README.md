@@ -59,7 +59,7 @@ Katalog iki yapıdan oluşur: sırayı ve gezinmeyi çift yönlü liste tutar, I
 ## Dosya biçimi
 `katalog.txt`: her kitap bir satır, `id|ad|yazar|sayfa|oduncte|oduncSayisi` (örnek `101|Suc ve Ceza|Dostoyevski|687|1|4`). Eski 4 alanlı satırlar da okunur; bu kitaplar rafta ve sayaç 0 sayılır.
 - **Göster (M1 → 12):** dosyayı okur, kataloğa dokunmaz.
-- **Yükle (M1 → 14):** dosya önce geçici bir listeye okunur, sonra katalogla yer değiştirir. Yalnız `bas`, `son` ve `adet` takas edilir (O(1)); eski düğümleri geçici listenin yıkıcısı siler. Dosya açılamazsa katalog değişmez. Bozuk ya da tekrar eden ID'li satır atlanır. Ödünçte kitap varken yükleme yapılmaz. Yüklemeden sonra geri alma yığını boşalır.
+- **Yükle (M1 → 14):** dosya önce geçici bir listeye okunur, sonra katalogla yer değiştirir. Takas edilenler: `bas`, `son`, `adet` ve hash indeksinin 31 kova işaretçisi. Düğüm kopyalanmaz; takas O(kova) = sabit 31 adım. Eski düğümleri geçici listenin yıkıcısı siler. Yüklemenin tamamı ortalama O(n): her satır bir kez okunur, ID kontrolü hash ile ortalama O(1). Dosya açılamazsa katalog değişmez. Bozuk ya da tekrar eden ID'li satır atlanır. Ödünçte kitap varken yükleme yapılmaz. Yüklemeden sonra geri alma yığını boşalır.
 
 ## Quick Sort pivot seçimi
 Lomuto bölümleme pivotu aralığın son elemanından alır. Dizi zaten sıralıysa pivot hep en büyük eleman olur ve sıralama O(n²)'ye düşer. Ortanca-üç sürümü ilk, orta ve son elemanın ortancasını pivot yapar. Modül 3 → 6 ikisini aynı girdide karşılaştırır: 1000 sıralı ID'de 499 500'e karşı 9 451 karşılaştırma. Küçük ve karışık dizide ortanca-üç birkaç karşılaştırma fazla yapar.
@@ -71,12 +71,12 @@ Yönergedeki 6 birimlik referans model kullanıldı: Merkez Kütüphane, MYO Bil
 (Ekran görüntüleri eklenecek.)
 
 ## Testler
-75 senaryo: `TEST_SENARYOLARI.md`. Hepsini yeniden kosmak icin `testler\kos.bat` (12 girdi dosyasi + 3 birim testi, ciktilar onayli ciktiyla karsilastirilir).
+81 senaryo: `TEST_SENARYOLARI.md`. Hepsini yeniden kosmak icin `testler\kos.bat` (13 girdi dosyasi + 3 birim testi, ciktilar onayli ciktiyla karsilastirilir).
 
 ## Bilinen sınırlılıklar
 - Kampüs grafı sabittir; menüden yol eklenip silinemez.
 - Metin alanlarında `|` karakteri kullanılamaz, çünkü dosyada ayıraç olarak kullanılıyor.
-- Kitabın hangi öğrencide olduğu tutulmaz, yalnız ödünçte olup olmadığı tutulur. Bu yüzden iadede kimin getirdiği sorulmaz.
+- Kitabın hangi öğrencide olduğu (`alanOgrenci`) bellekte tutulur ama dosyaya yazılmaz. Dosyadan yüklenen ödünçteki kitapta öğrenci bilinmez; bu kitaplar için "kitap zaten sizde" kontrolü çalışmaz.
 - Bekleme kuyruğu ve işlem geçmişi dosyaya yazılmaz; yalnız katalog kaydedilir.
 - **Korumalar (poka-yoke):** geri alma kaydı katalog sürümünü taşır; katalog boşaltılır ya da dosyadan yüklenirse eski kayıt uygulanmaz. Ödünçte kitap varken yükleme `KitapListesi` içinde engellenir. Hash kovası negatif ID'de de dizi içinde kalır. Graf fonksiyonları geçersiz birim indisini reddeder.
 - Hash tablosunun kova sayısı sabittir (31); büyümez. Kitap sayısı çok artarsa zincirler uzar (1000 kitapta ortalama 16,6 adım).

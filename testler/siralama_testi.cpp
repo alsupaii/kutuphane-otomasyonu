@@ -23,7 +23,7 @@ int main() {
                 if (tur == 1) id = i;
                 if (tur == 2) id = n - i;
                 if (tur == 3) id = std::rand() % 5;  // cok tekrar
-                a[i] = Kitap{id, "", "", 0, false, 0};
+                a[i] = Kitap{id, "", "", 0, false, 0, ""};
                 b[i] = a[i];
             }
             quickSortIdOrtancaUc(a, n);

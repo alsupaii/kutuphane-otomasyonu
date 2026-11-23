@@ -96,6 +96,12 @@ Betigin farki yakaladigi denendi: onayli ciktida 3728 sayisi 3729 yapilinca `[HA
 | 73 | Negatif ID hash kovasi | koruma_testi.cpp: ID -5 ve -36 | Dizi disina tasmaz, ikisi de bulunur | Dogru |
 | 74 | Oduncte varken dosyadan yukleme (sinif icinde) | koruma_testi.cpp | dosyadanYukle -2 dondurur, katalog degismez | Dogru |
 | 75 | Gecersiz graf birim indisi | koruma_testi.cpp: dijkstra(0,6), dijkstra(-1,0), bfs(6), dfs(-1), birimAdi(6) | -1 / sessiz donus / "(gecersiz birim)"; cokme yok | Dogru |
+| 76 | Kitabi elinde tutan ogrenci siraya girmeye calisir | Senaryo 13: Ali 105'i alir, ayni kitabi tekrar ister | "Bu kitap zaten bu ogrencide"; Veli siraya girer, iadede kitap Veli'ye gecer | Dogru |
+| 77 | Kitabin kimde oldugu listede | M1 → 1 | Oduncteki kitapta `oduncte [ogrenci no]` | Dogru |
+| 78 | Oku-goster sayaci | Senaryo 11 | "4 gecerli kayit okundu, 7 bozuk satir atlandi" (onceden bozuklar da sayiliyordu) | Dogru |
+| 79 | Yalniz bosluk olan alan, `\|` ile biten satir | bozuk_katalog.txt satir 207, 208 | Ikisi de bozuk sayilir | Dogru |
+| 80 | Oduncte varken bosalt (sinif icinde) | koruma_testi.cpp | bosalt() -2, katalog degismez | Dogru |
+| 81 | Tablo hizasi menu sirasina bagli degil | M1 → 1, sonra M3 → 6; M1 → 1, sonra M1 → 16 | Pivot sayilari saga, kova numaralari saga dayali | Dogru |
 
 Not: 21 ve 22'de takas ve kaydirma sayisi esit (14). Bu dogru: ikisi de dizideki
 ters sirali cift sayisina esittir.
@@ -106,3 +112,4 @@ dogru calisti. Tum test dosyalari statik exe ile yeniden kosuldu; diger sonuclar
 `derle.bat` artik `-static` ile derler.
 Dairesel tampon (64-66) eklendi; tum test dosyalarinin ciktisi onceki kosuyla ayni (yeni menu satiri haric).
 Hash indeksi (67-71) eklendi; tum test dosyalari yeniden kosuldu. Tek fark: temizlikten onceki canli dugum sayisi indeks kayitlari kadar artti (sonrasi yine 0).
+Kod incelemesi (76-81, 23 Kasim): 7 bulgu duzeltildi. Onayli ciktilar yenilendi; degisen her satir tek tek kontrol edildi (kimde bilgisi, okundu sayisi).

@@ -120,7 +120,9 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
   Bozuk satir atlandi: 204|Durum Iki|Yazar|10|2|0
   Bozuk satir atlandi: 205|Bos Yazar||10|0|0
 206    Son Satir                       Yazar B                   300    rafta (7)
-9 kayit dosyadan okundu.
+  Bozuk satir atlandi: 207|   |Bosluk Ad|10|0|0
+  Bozuk satir atlandi: 208|Pipe Sonu|Yazar|10|
+4 gecerli kayit dosyadan okundu, 7 bozuk satir atlandi.
 
 === MODUL 1: KATALOG VE DUYURULAR ===
   1) Kitaplari listele (ileri, next)
@@ -140,7 +142,7 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
  15) ID ile ara (hash indeksi ve dogrusal arama karsilastirmasi)
  16) Hash indeksi: kova dagilimi ve 1000 kitaplik deneme
   0) Ana menuye don
-Seciminiz: Mevcut katalog dosyadakiyle degissin mi? (1 = evet, 0 = hayir): 3 kitap dosyadan kataloga yuklendi. 6 satir atlandi (bozuk ya da tekrar eden ID).
+Seciminiz: Mevcut katalog dosyadakiyle degissin mi? (1 = evet, 0 = hayir): 3 kitap dosyadan kataloga yuklendi. 8 satir atlandi (bozuk ya da tekrar eden ID).
 
 === MODUL 1: KATALOG VE DUYURULAR ===
   1) Kitaplari listele (ileri, next)

@@ -23,7 +23,11 @@ static void tabloBasligiYaz() {
 static void kitapSatiriYaz(const Kitap& k) {
     std::cout << std::left << std::setw(7) << k.id << std::setw(32) << k.ad
               << std::setw(26) << k.yazar << std::setw(7) << k.sayfa
-              << (k.oduncte ? "oduncte" : "rafta") << " (" << k.oduncSayisi << ")\n";
+              << (k.oduncte ? "oduncte" : "rafta");
+    if (k.oduncte && !k.alanOgrenci.empty()) {
+        std::cout << " [" << k.alanOgrenci << "]";  // Kitap kimde
+    }
+    std::cout << " (" << k.oduncSayisi << ")\n";
 }
 
 // ---------------------------------------------------------------
@@ -120,7 +124,7 @@ void IdIndeksi::dagilimYazdir() const {
         if (uzunluk > enUzun) {
             enUzun = uzunluk;
         }
-        std::cout << "  kova " << std::setw(2) << i << ":";
+        std::cout << "  kova " << std::right << std::setw(2) << i << ":";
         for (const IndeksDugum* p = kova[i]; p != nullptr; p = p->next) {
             std::cout << ' ' << p->id << (p->next != nullptr ? " ->" : "");
         }
@@ -269,7 +273,7 @@ SilmeSonucu KitapListesi::sil(int id) {
 }
 
 // Kitabi indeksten bulur ve durumunu degistirir. Ortalama O(1).
-bool KitapListesi::durumDegistir(int id, bool oduncte) {
+bool KitapListesi::durumDegistir(int id, bool oduncte, const std::string& alanOgrenci) {
     KitapDugum* d = dugumBul(id);
     if (d == nullptr) {
         return false;
@@ -278,7 +282,16 @@ bool KitapListesi::durumDegistir(int id, bool oduncte) {
         d->veri.oduncSayisi++;  // Her odunc verme bir kez sayilir.
     }
     d->veri.oduncte = oduncte;
+    d->veri.alanOgrenci = oduncte ? alanOgrenci : std::string();
     return true;
+}
+
+// Kural sinifin icinde: oduncteki kitap silinirse bekleme kuyrugu olmayan kitabi bekler.
+int KitapListesi::bosalt() {
+    if (oduncteKitapVarMi()) {
+        return -2;
+    }
+    return temizle();
 }
 
 // En az bir kitap oduncteyse true. O(n).
@@ -420,7 +433,17 @@ static void sondakiCrSil(std::string& satir) {
 }
 
 // Bir dosya satirini Kitap'a cevirir. Alan sayisi ya da bir deger gecersizse false.
+// Bosluk disinda en az bir karakter var mi? Menu (metinOku) de ayni kurali uygular.
+static bool doluMu(const std::string& metin) {
+    return metin.find_first_not_of(" \t") != std::string::npos;
+}
+
 static bool satirCoz(const std::string& satir, Kitap& k) {
+    // "101|a|b|5|" gibi '|' ile biten satir: getline son bos alani dusurur ve satir
+    // gecerli 4 alanli gorunur. Bu yuzden once acikca reddedilir.
+    if (!satir.empty() && satir[satir.size() - 1] == '|') {
+        return false;
+    }
     std::string alan[6];
     int alanSayisi = 0;
     std::istringstream akis(satir);
@@ -437,7 +460,7 @@ static bool satirCoz(const std::string& satir, Kitap& k) {
     }
     int oduncte = 0;
     int sayac = 0;
-    if (!tamSayiCoz(alan[0], 1, 999999, k.id) || alan[1].empty() || alan[2].empty() ||
+    if (!tamSayiCoz(alan[0], 1, 999999, k.id) || !doluMu(alan[1]) || !doluMu(alan[2]) ||
         !tamSayiCoz(alan[3], 1, 100000, k.sayfa)) {
         return false;
     }
@@ -449,6 +472,7 @@ static bool satirCoz(const std::string& satir, Kitap& k) {
     k.yazar = alan[2];
     k.oduncte = (oduncte == 1);
     k.oduncSayisi = sayac;
+    k.alanOgrenci = "";  // Dosyada tutulmaz: kitabin kimde oldugu bilinmez.
     return true;
 }
 
@@ -475,7 +499,7 @@ int KitapListesi::dosyadanYukle(const std::string& dosyaAdi, int& atlanan) {
         if (satir.empty()) {
             continue;
         }
-        Kitap k{0, "", "", 0, false, 0};
+        Kitap k{0, "", "", 0, false, 0, ""};
         if (!satirCoz(satir, k) || gecici.sonaEkle(k) != EklemeSonucu::basarili) {
             atlanan++;
         }
@@ -563,7 +587,8 @@ int DuyuruListesi::temizle() {
 // ---------------------------------------------------------------
 
 // Dosyayi okur ve ekrana yazar; katalogu DEGISTIRMEZ. Okunan satir sayisini dondurur.
-int dosyadanOkuGoster(const std::string& dosyaAdi) {
+int dosyadanOkuGoster(const std::string& dosyaAdi, int& atlanan) {
+    atlanan = 0;
     std::ifstream dosya(dosyaAdi);
     if (!dosya) {
         return -1;
@@ -576,12 +601,13 @@ int dosyadanOkuGoster(const std::string& dosyaAdi) {
         if (satir.empty()) {
             continue;
         }
-        kayitSayisi++;
-        Kitap k{0, "", "", 0, false, 0};
+        Kitap k{0, "", "", 0, false, 0, ""};
         if (!satirCoz(satir, k)) {
             std::cout << "  Bozuk satir atlandi: " << satir << '\n';
+            atlanan++;
             continue;
         }
+        kayitSayisi++;  // Yalniz gecerli satir sayilir.
         if (!baslikYazildi) {
             tabloBasligiYaz();
             baslikYazildi = true;
@@ -603,6 +629,7 @@ static Kitap kitapBilgisiOku(int id) {
     k.sayfa = tamSayiOku("Sayfa sayisi (1-100000): ", 1, 100000);
     k.oduncte = false;  // Yeni kitap rafta baslar.
     k.oduncSayisi = 0;
+    k.alanOgrenci = "";
     return k;
 }
 
@@ -627,7 +654,7 @@ static void aramaKarsilastir(const KitapListesi& katalog, int id) {
     bool hashBuldu = false;
     const int dogrusal = katalog.dogrusalAramaAdimi(id, dogrusalBuldu);
     const int hash = katalog.hashAramaAdimi(id, hashBuldu);
-    std::cout << "ID " << id << (hashBuldu ? " bulundu" : " bulunamadi") << " (kova " << id % kovaSayisi
+    std::cout << "ID " << id << (hashBuldu ? " bulundu" : " bulunamadi") << " (kova " << IdIndeksi::kovaNo(id)
               << ")\n"
               << "  Dogrusal arama (liste): " << dogrusal << " karsilastirma\n"
               << "  Hash indeksi (zincir) : " << hash << " karsilastirma\n";
@@ -642,7 +669,7 @@ static void hashDenemesi() {
     const int n = 1000;
     KitapListesi deneme;
     for (int id = 1; id <= n; id++) {
-        deneme.sonaEkle(Kitap{id, "Deneme", "Yazar", 100, false, 0});
+        deneme.sonaEkle(Kitap{id, "Deneme", "Yazar", 100, false, 0, ""});
     }
     long long dogrusalToplam = 0;
     long long hashToplam = 0;
@@ -742,7 +769,7 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             // Geri alma icin silmeden ONCE kitabin kopyasi ve arka komsusunun ID'si saklanir.
             // Silmeden sonra dugum yok; bu bilgiye artik ulasilamaz.
             const KitapDugum* d = katalog.bul(id);
-            Kitap kopya{0, "", "", 0, false, 0};
+            Kitap kopya{0, "", "", 0, false, 0, ""};
             int sonrakiId = -1;
             if (d != nullptr) {
                 kopya = d->veri;
@@ -786,13 +813,18 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             break;
         case 12: {
-            const int okunan = dosyadanOkuGoster(katalogDosyasi);
+            int atlanan = 0;
+            const int okunan = dosyadanOkuGoster(katalogDosyasi, atlanan);
             if (okunan < 0) {
                 std::cout << "Dosya acilamadi. Once 11 ile katalogu dosyaya yazin.\n";
-            } else if (okunan == 0) {
+            } else if (okunan == 0 && atlanan == 0) {
                 std::cout << "Dosya bos.\n";
             } else {
-                std::cout << okunan << " kayit dosyadan okundu.\n";
+                std::cout << okunan << " gecerli kayit dosyadan okundu";
+                if (atlanan > 0) {
+                    std::cout << ", " << atlanan << " bozuk satir atlandi";
+                }
+                std::cout << ".\n";
             }
             break;
         }
@@ -837,7 +869,7 @@ void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& ge
             }
             const int onay = tamSayiOku("Tum kitaplar silinsin mi? (1 = evet, 0 = hayir): ", 0, 1);
             if (onay == 1) {
-                const int silinen = katalog.temizle();
+                const int silinen = katalog.bosalt();  // Oduncte kitap kontrolu yukarida; bosalt ayrica korur.
                 std::cout << silinen << " kitap dugumu silindi. Katalog bos.\n";
                 gecmis.push("Katalog bosaltildi (" + std::to_string(silinen) + " kitap)");
                 // Eski kayitlarin komsu ID'leri artik yok; bu kayitlar geri alinamaz.

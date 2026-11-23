@@ -18,6 +18,7 @@ struct Kitap {
     int sayfa;
     bool oduncte;     // true: bir ogrencide, false: rafta
     int oduncSayisi;  // Kac kez odunc verildi (Modul 3 bu alana gore siralar)
+    std::string alanOgrenci;  // Kitabi elinde tutan ogrenci no; rafta ise bos. Dosyaya yazilmaz.
 };
 
 // Cift yonlu bagli liste dugumu: hem onceki (prev) hem sonraki (next) dugumu bilir.
@@ -63,13 +64,13 @@ public:
     void takas(IdIndeksi& diger);                   // Iki indeksin kovalarini degistirir, O(kova)
     void dagilimYazdir() const;
     int boyut() const;
+    // Sonuc her zaman 0..kovaSayisi-1. Negatif ID'de de dizi disina tasmaz
+    // (C++'ta -5 % 31 = -5 olur; + kovaSayisi ile pozitife cekilir).
+    static int kovaNo(int id) { return ((id % kovaSayisi) + kovaSayisi) % kovaSayisi; }
 
 private:
     IndeksDugum* kova[kovaSayisi];
     int adet;
-    // Sonuc her zaman 0..kovaSayisi-1. Negatif ID'de de dizi disina tasmaz
-    // (C++'ta -5 % 31 = -5 olur; + kovaSayisi ile pozitife cekilir).
-    static int kovaNo(int id) { return ((id % kovaSayisi) + kovaSayisi) % kovaSayisi; }
 };
 
 enum class EklemeSonucu { basarili, idZatenVar, hedefYok };
@@ -89,11 +90,14 @@ public:
     EklemeSonucu sonaEkle(const Kitap& k);
     EklemeSonucu oncesineEkle(int hedefId, const Kitap& k);
     SilmeSonucu sil(int id);  // Oduncteki kitap silinmez.
-    int temizle();  // Tum dugumleri siler, silinen dugum sayisini dondurur.
+    // Tum dugumleri KURALSIZ siler (yikici ve program kapanisi icin). Silinen dugum sayisi.
+    int temizle();
+    // Menu icin kuralli bosaltma: oduncte kitap varsa hicbir sey silmez ve -2 dondurur.
+    int bosalt();
 
-    // Odunc durumunu degistirir. oduncte = true ise oduncSayisi 1 artar.
-    // Kitap yoksa false dondurur.
-    bool durumDegistir(int id, bool oduncte);
+    // Odunc durumunu degistirir. oduncte = true ise oduncSayisi 1 artar ve kitap
+    // alanOgrenci'ye gecer; false ise kitap rafa doner (alanOgrenci bosalir). Kitap yoksa false.
+    bool durumDegistir(int id, bool oduncte, const std::string& alanOgrenci = "");
     bool oduncteKitapVarMi() const;
 
     const KitapDugum* bul(int id) const;
@@ -157,8 +161,9 @@ private:
 };
 
 // Dosyayi satir satir okur, alanlari '|' ile ayirir ve ekrana yazar.
-// Okunan kayit sayisini, dosya acilamazsa -1 dondurur.
-int dosyadanOkuGoster(const std::string& dosyaAdi);
+// Gecerli kayit sayisini, dosya acilamazsa -1 dondurur. Katalogu degistirmez.
+// atlanan: bozuk oldugu icin gosterilmeyen satir sayisi.
+int dosyadanOkuGoster(const std::string& dosyaAdi, int& atlanan);
 
 // gecmis: tum islemlerin metin kaydi. geriAlma: yalniz geri alinabilir kitap ekleme/silme.
 void modul1Menu(KitapListesi& katalog, DuyuruListesi& duyurular, IslemYigini& gecmis,

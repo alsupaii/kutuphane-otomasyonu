@@ -173,8 +173,8 @@ En cok sayfali kitap: Sefiller (1463)
 Seciminiz: Sayfa esigi (0-100000): ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
 --------------------------------------------------------------------------------------------
 105    Ince Memed                      Yasar Kemal               436    rafta (3)
-101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
-104    Sefiller                        Victor Hugo               1463   oduncte (2)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte [2026090] (4)
+104    Sefiller                        Victor Hugo               1463   oduncte [2026091] (2)
 400 sayfayi asan 3 kitap bulundu.
 
 === MODUL 1: KATALOG VE DUYURULAR ===
@@ -200,9 +200,9 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
 105    Ince Memed                      Yasar Kemal               436    rafta (3)
 102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
 150    E                               F                         300    rafta (0)
-101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte [2026090] (4)
 107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
-104    Sefiller                        Victor Hugo               1463   oduncte (2)
+104    Sefiller                        Victor Hugo               1463   oduncte [2026091] (2)
 106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
 103    Simyaci                         Paulo Coelho              188    rafta (6)
 Toplam 8 kitap (bastan sona).

@@ -93,9 +93,9 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
 102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
 108    1984                            George Orwell             352    rafta (2)
 150    E                               F                         30     rafta (0)
-101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte [2026090] (4)
 107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
-104    Sefiller                        Victor Hugo               1463   oduncte (2)
+104    Sefiller                        Victor Hugo               1463   oduncte [2026091] (2)
 106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
 103    Simyaci                         Paulo Coelho              188    rafta (6)
 200    C                               D                         20     rafta (0)
@@ -243,9 +243,9 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
 --------------------------------------------------------------------------------------------
 103    Simyaci                         Paulo Coelho              188    rafta (6)
 106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
-104    Sefiller                        Victor Hugo               1463   oduncte (2)
+104    Sefiller                        Victor Hugo               1463   oduncte [2026091] (2)
 107    Kucuk Prens                     Antoine de Saint-Exupery  112    rafta (1)
-101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte [2026090] (4)
 150    E                               F                         30     rafta (0)
 102    Kurk Mantolu Madonna            Sabahattin Ali            160    rafta (5)
 105    Ince Memed                      Yasar Kemal               436    rafta (3)
@@ -296,8 +296,8 @@ En cok sayfali kitap: Sefiller (1463)
 Seciminiz: Sayfa esigi (0-100000): ID     Kitap adi                       Yazar                     Sayfa  Durum (odunc sayisi)
 --------------------------------------------------------------------------------------------
 105    Ince Memed                      Yasar Kemal               436    rafta (3)
-101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte (4)
-104    Sefiller                        Victor Hugo               1463   oduncte (2)
+101    Suc ve Ceza                     Fyodor Dostoyevski        687    oduncte [2026090] (4)
+104    Sefiller                        Victor Hugo               1463   oduncte [2026091] (2)
 400 sayfayi asan 3 kitap bulundu.
 
 === MODUL 1: KATALOG VE DUYURULAR ===
@@ -392,7 +392,7 @@ Seciminiz: ID     Kitap adi                       Yazar                     Sayf
 104    Sefiller                        Victor Hugo               1463   oduncte (2)
 106    Saatleri Ayarlama Enstitusu     Ahmet Hamdi Tanpinar      382    rafta (0)
 103    Simyaci                         Paulo Coelho              188    rafta (6)
-8 kayit dosyadan okundu.
+8 gecerli kayit dosyadan okundu.
 
 === MODUL 1: KATALOG VE DUYURULAR ===
   1) Kitaplari listele (ileri, next)

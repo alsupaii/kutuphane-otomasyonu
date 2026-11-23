@@ -24,7 +24,7 @@ void IslemYigini::push(const IslemKaydi& kayit) {
 }
 
 void IslemYigini::push(const std::string& aciklama) {
-    push(IslemKaydi{aciklama, IslemTuru::bilgi, Kitap{0, "", "", 0, false, 0}, -1, 0});
+    push(IslemKaydi{aciklama, IslemTuru::bilgi, Kitap{0, "", "", 0, false, 0, ""}, -1, 0});
 }
 
 bool IslemYigini::pop(IslemKaydi& cikan) {
@@ -247,9 +247,12 @@ static void oduncTalebi(IslemYigini& gecmis, HareketTamponu& hareketler, Bekleme
     const std::string idMetni = std::to_string(o.kitapId);
 
     if (!kitap->veri.oduncte) {
-        katalog.durumDegistir(o.kitapId, true);
+        katalog.durumDegistir(o.kitapId, true, o.ogrenciNo);  // Kitap artik bu ogrencide.
         std::cout << "Kitap rafta. Odunc verildi: " << o.kitapAdi << " -> " << o.adSoyad << '\n';
         hareketKaydet(gecmis, hareketler, "Odunc verildi: ID " + idMetni + " -> " + o.ogrenciNo);
+    } else if (kitap->veri.alanOgrenci == o.ogrenciNo) {
+        // Kitap zaten bu ogrencide. Siraya girerse iadede kitap yine ona doner.
+        std::cout << "Bu kitap zaten bu ogrencide. Siraya eklenmedi.\n";
     } else if (kuyruk.siradaMi(o.ogrenciNo, o.kitapId)) {
         std::cout << "Bu ogrenci bu kitap icin zaten sirada.\n";
     } else {
@@ -278,7 +281,7 @@ static void iadeAl(IslemYigini& gecmis, HareketTamponu& hareketler, BeklemeKuyru
     const std::string idMetni = std::to_string(id);
     Ogrenci siradaki;
     if (kuyruk.ilkBekleyeniCikar(id, siradaki)) {
-        katalog.durumDegistir(id, true);  // Kitap rafa donmeden yeni ogrenciye gecer.
+        katalog.durumDegistir(id, true, siradaki.ogrenciNo);  // Rafa donmeden siradakine gecer.
         std::cout << "Iade alindi. Kitap bekleyen ilk ogrenciye verildi: " << siradaki.ogrenciNo
                   << " - " << siradaki.adSoyad << '\n';
         duyurular.ekle("Sira size geldi: " + siradaki.adSoyad + " (" + siradaki.ogrenciNo +

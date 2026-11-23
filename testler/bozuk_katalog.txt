@@ -8,3 +8,5 @@ abc|Bozuk ID|Yazar|10
 
 205|Bos Yazar||10|0|0
 206|Son Satir|Yazar B|300|0|7
+207|   |Bosluk Ad|10|0|0
+208|Pipe Sonu|Yazar|10|

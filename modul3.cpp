@@ -186,9 +186,9 @@ static void pivotYaris(const Kitap kaynak[], int n, const std::string& baslik) {
     const SiralamaSayaci sonEleman = quickSortId(a, n);
     const SiralamaSayaci ortanca = quickSortIdOrtancaUc(b, n);
     std::cout << baslik << " (n = " << n << ")\n"
-              << "  Pivot son eleman : " << std::setw(8) << sonEleman.karsilastirma
+              << "  Pivot son eleman : " << std::right << std::setw(8) << sonEleman.karsilastirma
               << " karsilastirma, " << sonEleman.degisim << " takas\n"
-              << "  Pivot ortanca-uc : " << std::setw(8) << ortanca.karsilastirma
+              << "  Pivot ortanca-uc : " << std::right << std::setw(8) << ortanca.karsilastirma
               << " karsilastirma, " << ortanca.degisim << " takas\n";
     delete[] a;
     delete[] b;
@@ -204,7 +204,7 @@ static void pivotKarsilastir(const Kitap katalogKopyasi[], int n) {
     Kitap* sirali = new Kitap[buyukN];
     canliDizi++;
     for (int i = 0; i < buyukN; i++) {
-        sirali[i] = Kitap{i + 1, "", "", 0, false, 0};  // ID'ler 1, 2, 3 ... artan
+        sirali[i] = Kitap{i + 1, "", "", 0, false, 0, ""};  // ID'ler 1, 2, 3 ... artan
     }
     pivotYaris(sirali, buyukN, "Zaten sirali ID'ler");
     delete[] sirali;

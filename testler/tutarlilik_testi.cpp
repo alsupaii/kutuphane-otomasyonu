@@ -13,7 +13,7 @@ int main() {
         for (int adim = 0; adim < 20000; adim++) {
             const int islem = std::rand() % 100;
             const int id = 1 + std::rand() % 150;
-            const Kitap kitap{id, "A", "B", 10, false, 0};
+            const Kitap kitap{id, "A", "B", 10, false, 0, ""};
             if (islem < 25) k.basaEkle(kitap);
             else if (islem < 50) k.sonaEkle(kitap);
             else if (islem < 65) k.oncesineEkle(1 + std::rand() % 150, kitap);
